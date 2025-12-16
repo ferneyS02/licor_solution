@@ -1,0 +1,149 @@
+[
+  {
+    "ContainingType": "Licoreria.Api.Controllers.CategoriasController",
+    "Method": "Get",
+    "RelativePath": "api/categorias",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Licoreria.Api.Controllers.MesasController",
+    "Method": "Get",
+    "RelativePath": "api/mesas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Licoreria.Api.Controllers.OrdenesController",
+    "Method": "Agregar",
+    "RelativePath": "api/ordenes/{idOrden}/agregar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idOrden",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "req",
+        "Type": "Licoreria.Api.Controllers.OrdenesController\u002BAgregarReq",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Licoreria.Api.Controllers.OrdenesController",
+    "Method": "Cerrar",
+    "RelativePath": "api/ordenes/{idOrden}/cerrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idOrden",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Licoreria.Api.Controllers.OrdenesController",
+    "Method": "Pagar",
+    "RelativePath": "api/ordenes/{idOrden}/pagar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idOrden",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "req",
+        "Type": "Licoreria.Api.Controllers.OrdenesController\u002BPagoReq",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Licoreria.Api.Controllers.OrdenesController",
+    "Method": "Abierta",
+    "RelativePath": "api/ordenes/abierta/{idMesa}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idMesa",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Licoreria.Api.Controllers.OrdenesController",
+    "Method": "Abrir",
+    "RelativePath": "api/ordenes/abrir/{idMesa}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idMesa",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "idUsuario",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Licoreria.Api.Controllers.ProductosController",
+    "Method": "PorCategoria",
+    "RelativePath": "api/productos/{idCategoria}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idCategoria",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Licoreria.Api.Controllers.ReportesController",
+    "Method": "JornadaPdf",
+    "RelativePath": "api/reportes/jornada/{id}/pdf",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

@@ -1,0 +1,11 @@
+C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Domain\bin\Debug\net8.0\Licoreria.Domain.deps.json
+C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Domain\bin\Debug\net8.0\Licoreria.Domain.dll
+C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Domain\bin\Debug\net8.0\Licoreria.Domain.pdb
+C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Domain\obj\Debug\net8.0\Licoreria.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Domain\obj\Debug\net8.0\Licoreria.Domain.AssemblyInfoInputs.cache
+C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Domain\obj\Debug\net8.0\Licoreria.Domain.AssemblyInfo.cs
+C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Domain\obj\Debug\net8.0\Licoreria.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Domain\obj\Debug\net8.0\Licoreria.Domain.dll
+C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Domain\obj\Debug\net8.0\refint\Licoreria.Domain.dll
+C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Domain\obj\Debug\net8.0\Licoreria.Domain.pdb
+C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Domain\obj\Debug\net8.0\ref\Licoreria.Domain.dll
