@@ -1,12 +1,223 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|c:\\users\\ferney\\source\\repos\\licoreriasolution\\licoreria.desktop\\views\\inventariopage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|solutionrelative:licoreria.desktop\\views\\inventariopage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|c:\\users\\ferney\\source\\repos\\licoreriasolution\\licoreria.desktop\\views\\ordenpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|solutionrelative:licoreria.desktop\\views\\ordenpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|c:\\users\\ferney\\source\\repos\\licoreriasolution\\licoreria.desktop\\views\\ordenpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|solutionrelative:licoreria.desktop\\views\\ordenpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|c:\\users\\ferney\\source\\repos\\licoreriasolution\\licoreria.desktop\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|solutionrelative:licoreria.desktop\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|c:\\users\\ferney\\source\\repos\\licoreriasolution\\licoreria.desktop\\apiconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|solutionrelative:licoreria.desktop\\apiconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|c:\\users\\ferney\\source\\repos\\licoreriasolution\\licoreria.desktop\\models\\models.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|solutionrelative:licoreria.desktop\\models\\models.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712FF4BC-9EAE-40DB-9DB2-16BFCC2BD6FF}|Licoreria.Api\\Licoreria.Api.csproj|c:\\users\\ferney\\source\\repos\\licoreriasolution\\licoreria.api\\controllers\\ordenescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712FF4BC-9EAE-40DB-9DB2-16BFCC2BD6FF}|Licoreria.Api\\Licoreria.Api.csproj|solutionrelative:licoreria.api\\controllers\\ordenescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712FF4BC-9EAE-40DB-9DB2-16BFCC2BD6FF}|Licoreria.Api\\Licoreria.Api.csproj|c:\\users\\ferney\\source\\repos\\licoreriasolution\\licoreria.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{712FF4BC-9EAE-40DB-9DB2-16BFCC2BD6FF}|Licoreria.Api\\Licoreria.Api.csproj|solutionrelative:licoreria.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712FF4BC-9EAE-40DB-9DB2-16BFCC2BD6FF}|Licoreria.Api\\Licoreria.Api.csproj|c:\\users\\ferney\\source\\repos\\licoreriasolution\\licoreria.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{712FF4BC-9EAE-40DB-9DB2-16BFCC2BD6FF}|Licoreria.Api\\Licoreria.Api.csproj|solutionrelative:licoreria.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Infrastructure\\Migrations\\20251216193618_Init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Licoreria.Infrastructure\\Migrations\\20251216193618_Init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{712FF4BC-9EAE-40DB-9DB2-16BFCC2BD6FF}|Licoreria.Api\\Licoreria.Api.csproj|c:\\users\\ferney\\source\\repos\\licoreriasolution\\licoreria.api\\licoreria.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{712FF4BC-9EAE-40DB-9DB2-16BFCC2BD6FF}|Licoreria.Api\\Licoreria.Api.csproj|solutionrelative:licoreria.api\\licoreria.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5AC76949-3D06-4FCD-9613-7DA99D183C6F}|Licoreria.Infrastructure\\Licoreria.Infrastructure.csproj|c:\\users\\ferney\\source\\repos\\licoreriasolution\\licoreria.infrastructure\\licoreria.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{5AC76949-3D06-4FCD-9613-7DA99D183C6F}|Licoreria.Infrastructure\\Licoreria.Infrastructure.csproj|solutionrelative:licoreria.infrastructure\\licoreria.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "InventarioPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Views\\InventarioPage.xaml.cs",
+              "RelativeDocumentMoniker": "Licoreria.Desktop\\Views\\InventarioPage.xaml.cs",
+              "ToolTip": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Views\\InventarioPage.xaml.cs",
+              "RelativeToolTip": "Licoreria.Desktop\\Views\\InventarioPage.xaml.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAkwAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T19:44:33.149Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "OrdenPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Views\\OrdenPage.xaml.cs",
+              "RelativeDocumentMoniker": "Licoreria.Desktop\\Views\\OrdenPage.xaml.cs",
+              "ToolTip": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Views\\OrdenPage.xaml.cs",
+              "RelativeToolTip": "Licoreria.Desktop\\Views\\OrdenPage.xaml.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAIwFsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T19:43:48.203Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "OrdenPage.xaml",
+              "DocumentMoniker": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Views\\OrdenPage.xaml",
+              "RelativeDocumentMoniker": "Licoreria.Desktop\\Views\\OrdenPage.xaml",
+              "ToolTip": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Views\\OrdenPage.xaml",
+              "RelativeToolTip": "Licoreria.Desktop\\Views\\OrdenPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-12-16T19:43:28.168Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ApiService.cs",
+              "DocumentMoniker": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Services\\ApiService.cs",
+              "RelativeDocumentMoniker": "Licoreria.Desktop\\Services\\ApiService.cs",
+              "ToolTip": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Services\\ApiService.cs",
+              "RelativeToolTip": "Licoreria.Desktop\\Services\\ApiService.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAIwD0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T19:43:00.658Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ApiConfig.cs",
+              "DocumentMoniker": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\ApiConfig.cs",
+              "RelativeDocumentMoniker": "Licoreria.Desktop\\ApiConfig.cs",
+              "ToolTip": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\ApiConfig.cs",
+              "RelativeToolTip": "Licoreria.Desktop\\ApiConfig.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAgwBwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T19:42:31.062Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Models.cs",
+              "DocumentMoniker": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Models\\Models.cs",
+              "RelativeDocumentMoniker": "Licoreria.Desktop\\Models\\Models.cs",
+              "ToolTip": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Models\\Models.cs",
+              "RelativeToolTip": "Licoreria.Desktop\\Models\\Models.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAwwC4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T19:41:57.595Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "OrdenesController.cs",
+              "DocumentMoniker": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Api\\Controllers\\OrdenesController.cs",
+              "RelativeDocumentMoniker": "Licoreria.Api\\Controllers\\OrdenesController.cs",
+              "ToolTip": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Api\\Controllers\\OrdenesController.cs",
+              "RelativeToolTip": "Licoreria.Api\\Controllers\\OrdenesController.cs",
+              "ViewState": "AgIAAMIAAAAAAAAAAAAIwOAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T19:40:38.327Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Api\\Program.cs",
+              "RelativeDocumentMoniker": "Licoreria.Api\\Program.cs",
+              "ToolTip": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Api\\Program.cs",
+              "RelativeToolTip": "Licoreria.Api\\Program.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAQwCcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T19:36:53.957Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Api\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Licoreria.Api\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Api\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Licoreria.Api\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-12-16T19:39:05.422Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "20251216193618_Init.cs",
+              "DocumentMoniker": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Infrastructure\\Migrations\\20251216193618_Init.cs",
+              "RelativeDocumentMoniker": "Licoreria.Infrastructure\\Migrations\\20251216193618_Init.cs",
+              "ToolTip": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Infrastructure\\Migrations\\20251216193618_Init.cs",
+              "RelativeToolTip": "Licoreria.Infrastructure\\Migrations\\20251216193618_Init.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T19:36:19.25Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Licoreria.Api.csproj",
+              "DocumentMoniker": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Api\\Licoreria.Api.csproj",
+              "RelativeDocumentMoniker": "Licoreria.Api\\Licoreria.Api.csproj",
+              "ToolTip": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Api\\Licoreria.Api.csproj",
+              "RelativeToolTip": "Licoreria.Api\\Licoreria.Api.csproj",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABEAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-12-16T19:28:24.431Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Licoreria.Infrastructure.csproj",
+              "DocumentMoniker": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Infrastructure\\Licoreria.Infrastructure.csproj",
+              "RelativeDocumentMoniker": "Licoreria.Infrastructure\\Licoreria.Infrastructure.csproj",
+              "ToolTip": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Infrastructure\\Licoreria.Infrastructure.csproj",
+              "RelativeToolTip": "Licoreria.Infrastructure\\Licoreria.Infrastructure.csproj",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAACEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-12-16T19:27:51.06Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

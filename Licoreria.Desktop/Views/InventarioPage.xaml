@@ -1,0 +1,37 @@
+﻿<Page x:Class="Licoreria.Desktop.Views.InventarioPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="#000000">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Inventario" Foreground="White" FontSize="20" Margin="0,0,0,10" Height="27" VerticalAlignment="Bottom"/>
+
+        <DataGrid x:Name="Grid" Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  Background="#0F0F0F" Foreground="White"
+                  RowBackground="#0F0F0F"
+                  AlternatingRowBackground="#111111"
+                  CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding IdProducto}" Width="60"/>
+                <DataGridTextColumn Header="Producto" Binding="{Binding Nombre}" Width="*"/>
+                <DataGridTextColumn Header="Precio" Binding="{Binding PrecioActual}" Width="120"/>
+                <DataGridTextColumn Header="Stock" Binding="{Binding Stock}" Width="90"/>
+                <DataGridTemplateColumn Header="Acciones" Width="200">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Guardar Stock" Margin="0,0,8,0" Click="GuardarStock_Click"/>
+                                <Button Content="Guardar Precio" Click="GuardarPrecio_Click"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

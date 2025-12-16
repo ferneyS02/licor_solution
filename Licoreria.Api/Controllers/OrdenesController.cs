@@ -12,35 +12,32 @@ public class OrdenesController : ControllerBase
     private readonly AppDbContext _ctx;
     public OrdenesController(AppDbContext ctx) => _ctx = ctx;
 
-    // GET: /api/ordenes/abierta/{idMesa}
-    [HttpGet("abierta/{idMesa:int}")]
-    public async Task<IActionResult> Abierta(int idMesa)
+    // 1) Obtener orden abierta por mesa (para no abrir 2 veces)
+    [HttpGet("abierta/mesa/{idMesa:int}")]
+    public async Task<IActionResult> GetAbiertaPorMesa(int idMesa)
     {
-        var orden = await _ctx.OrdenesMesa.AsNoTracking()
+        var orden = await _ctx.OrdenesMesa
+            .AsNoTracking()
             .Where(o => o.IdMesa == idMesa && o.Estado == "Abierta")
-            .Select(o => new { o.IdOrden })
+            .Select(o => new { o.IdOrden, Mesa = o.Mesa.Nombre })
             .FirstOrDefaultAsync();
 
-        if (orden == null) return NotFound();
+        if (orden == null) return Ok(null);
         return Ok(orden);
     }
 
-    // POST: /api/ordenes/abrir/{idMesa}?idUsuario=2
+    // 2) Abrir orden (si ya hay abierta, devolverla)
     [HttpPost("abrir/{idMesa:int}")]
     public async Task<IActionResult> Abrir(int idMesa, [FromQuery] int idUsuario = 2)
     {
-        // si ya hay una abierta, devuelve esa (evita errores “mesa ocupada”)
+        // Si ya hay una orden abierta para esa mesa: devolverla
         var ya = await _ctx.OrdenesMesa
-            .Where(o => o.IdMesa == idMesa && o.Estado == "Abierta")
-            .Select(o => new { o.IdOrden })
-            .FirstOrDefaultAsync();
+            .Include(o => o.Mesa)
+            .FirstOrDefaultAsync(o => o.IdMesa == idMesa && o.Estado == "Abierta");
         if (ya != null)
-        {
-            var mesaYa = await _ctx.Mesas.FindAsync(idMesa);
-            return Ok(new { IdOrden = ya.IdOrden, Mesa = mesaYa?.Nombre ?? $"Mesa{idMesa}" });
-        }
+            return Ok(new { ya.IdOrden, Mesa = ya.Mesa.Nombre });
 
-        // Jornada abierta (si no existe, crear)
+        // Jornada abierta o crear
         var jornada = await _ctx.Jornadas.FirstOrDefaultAsync(j => j.Estado == "Abierta");
         if (jornada == null)
         {
@@ -48,6 +45,7 @@ public class OrdenesController : ControllerBase
             {
                 FechaJornada = DateTime.Today,
                 FechaHoraInicio = DateTime.Now,
+                UsuarioInicio = idUsuario,
                 Estado = "Abierta"
             };
             _ctx.Jornadas.Add(jornada);
@@ -64,7 +62,9 @@ public class OrdenesController : ControllerBase
             IdMesa = mesa.IdMesa,
             IdJornada = jornada.IdJornada,
             FechaHoraInicio = DateTime.Now,
-            Estado = "Abierta"
+            Usuario = idUsuario,
+            Estado = "Abierta",
+            TipoPago = "Normal"
         };
 
         _ctx.OrdenesMesa.Add(orden);
@@ -73,127 +73,152 @@ public class OrdenesController : ControllerBase
         return Ok(new { orden.IdOrden, Mesa = mesa.Nombre });
     }
 
-    // GET: /api/ordenes/{idOrden} (detalle + total)
-    [HttpGet("{idOrden:int}")]
+    public record AgregarReq(int IdProducto, int Cantidad);
+
+    // 3) Agregar producto: SI YA EXISTE EN LA ORDEN, SUMA CANTIDAD
+    [HttpPost("{idOrden:int}/agregar")]
+    public async Task<IActionResult> Agregar(int idOrden, [FromBody] AgregarReq req)
+    {
+        if (req.Cantidad <= 0) return BadRequest("Cantidad inválida");
+
+        var orden = await _ctx.OrdenesMesa
+            .Include(o => o.Detalles)
+            .FirstOrDefaultAsync(o => o.IdOrden == idOrden);
+
+        if (orden == null || orden.Estado != "Abierta")
+            return BadRequest("Orden no válida");
+
+        var prod = await _ctx.Productos.FindAsync(req.IdProducto);
+        if (prod == null) return NotFound("Producto no existe");
+
+        // Inventario (si quieres controlar stock real)
+        if (prod.Stock > 0 && prod.Stock < req.Cantidad)
+            return BadRequest("Stock insuficiente");
+
+        // Si ya existe línea del mismo producto, sumamos
+        var linea = orden.Detalles.FirstOrDefault(d => d.IdProducto == req.IdProducto);
+        if (linea == null)
+        {
+            linea = new DetalleOrden
+            {
+                IdOrden = orden.IdOrden,
+                IdProducto = prod.IdProducto,
+                NombreProducto = prod.Nombre,
+                PrecioUnitario = prod.PrecioActual,
+                Cantidad = req.Cantidad,
+                Total = prod.PrecioActual * req.Cantidad
+            };
+            orden.Detalles.Add(linea);
+        }
+        else
+        {
+            linea.Cantidad += req.Cantidad;
+            linea.Total = linea.PrecioUnitario * linea.Cantidad;
+        }
+
+        // Descontar stock si lo usas
+        if (prod.Stock > 0) prod.Stock -= req.Cantidad;
+
+        await _ctx.SaveChangesAsync();
+        return Ok(new { ok = true });
+    }
+
+    // 4) Detalle + Total calculado (esto es lo que tu WPF necesita)
+    [HttpGet("{idOrden:int}/detalle")]
     public async Task<IActionResult> Detalle(int idOrden)
     {
-        var orden = await _ctx.OrdenesMesa.AsNoTracking()
-            .Include(o => o.Detalles)
+        var orden = await _ctx.OrdenesMesa
+            .AsNoTracking()
             .Include(o => o.Mesa)
+            .Include(o => o.Detalles)
             .FirstOrDefaultAsync(o => o.IdOrden == idOrden);
 
         if (orden == null) return NotFound();
 
-        var total = orden.Detalles.Sum(d => d.Total);
+        var lineas = orden.Detalles
+            .OrderBy(d => d.NombreProducto)
+            .Select(d => new
+            {
+                d.IdProducto,
+                d.NombreProducto,
+                d.PrecioUnitario,
+                d.Cantidad,
+                d.Total
+            })
+            .ToList();
+
+        var total = lineas.Sum(x => x.Total);
 
         return Ok(new
         {
             orden.IdOrden,
             Mesa = orden.Mesa.Nombre,
             orden.Estado,
-            Total = total,
-            Lineas = orden.Detalles
-                .OrderByDescending(d => d.IdDetalle)
-                .Select(d => new {
-                    d.IdDetalle,
-                    d.NombreProducto,
-                    d.Cantidad,
-                    d.PrecioUnitario,
-                    d.Total
-                })
+            Lineas = lineas,
+            Total = total
         });
     }
 
-    public record AgregarReq(int IdProducto, int Cantidad);
+    public record PagarReq(string TipoPago);
 
-    // POST: /api/ordenes/{idOrden}/agregar
-    [HttpPost("{idOrden:int}/agregar")]
-    public async Task<IActionResult> Agregar(int idOrden, [FromBody] AgregarReq req)
-    {
-        if (req.Cantidad <= 0) return BadRequest("Cantidad inválida");
-
-        var orden = await _ctx.OrdenesMesa.Include(o => o.Detalles)
-            .FirstOrDefaultAsync(o => o.IdOrden == idOrden);
-
-        if (orden == null || orden.Estado != "Abierta") return BadRequest("Orden no válida");
-
-        var prod = await _ctx.Productos.FindAsync(req.IdProducto);
-        if (prod == null) return NotFound("Producto no existe");
-
-        // (inventario) resta stock si lo manejas
-        if (prod.Stock > 0)
-        {
-            if (prod.Stock < req.Cantidad) return BadRequest("Stock insuficiente");
-            prod.Stock -= req.Cantidad;
-        }
-
-        var det = new DetalleOrden
-        {
-            IdOrden = orden.IdOrden,
-            IdProducto = prod.IdProducto,
-            NombreProducto = prod.Nombre,        // snapshot
-            PrecioUnitario = prod.PrecioActual,  // snapshot
-            Cantidad = req.Cantidad,
-            Total = prod.PrecioActual * req.Cantidad
-        };
-
-        orden.Detalles.Add(det);
-        await _ctx.SaveChangesAsync();
-        return Ok("Agregado");
-    }
-
-    public record PagoReq(string TipoPago);
-
-    // POST: /api/ordenes/{idOrden}/pagar  (monto se calcula desde detalles)
+    // 5) Pagar: NO PIDAS MONTO, se calcula SOLO con detalle
     [HttpPost("{idOrden:int}/pagar")]
-    public async Task<IActionResult> Pagar(int idOrden, [FromBody] PagoReq req)
+    public async Task<IActionResult> Pagar(int idOrden, [FromBody] PagarReq req)
     {
         var orden = await _ctx.OrdenesMesa
             .Include(o => o.Detalles)
-            .Include(o => o.Pagos)
+            .Include(o => o.Mesa)
             .FirstOrDefaultAsync(o => o.IdOrden == idOrden);
 
-        if (orden == null) return NotFound("Orden no encontrada");
-        if (orden.Estado != "Abierta") return BadRequest("Orden ya cerrada");
+        if (orden == null) return NotFound("Orden no existe");
+        if (orden.Estado != "Abierta") return BadRequest("Orden no está abierta");
 
-        var baseMonto = orden.Detalles.Sum(d => d.Total);
+        var montoBase = orden.Detalles.Sum(d => d.Total);
+
+        if (montoBase <= 0)
+            return BadRequest("No hay productos en la orden");
 
         decimal recargo = 0;
-        decimal final = baseMonto;
+        decimal final = montoBase;
 
         if (req.TipoPago.Equals("Tarjeta", StringComparison.OrdinalIgnoreCase))
         {
-            recargo = Math.Round(baseMonto * 0.05m, 0) + 300m;
-            final = baseMonto + recargo;
+            recargo = Math.Round(montoBase * 0.05m, 0) + 300m;
+            final = montoBase + recargo;
         }
 
         _ctx.Pagos.Add(new Pago
         {
             IdOrden = idOrden,
+            MontoBase = montoBase,
             TipoPago = req.TipoPago,
-            MontoBase = baseMonto,
             Recargo = recargo,
             MontoFinal = final,
             FechaHora = DateTime.Now
         });
 
         await _ctx.SaveChangesAsync();
-        return Ok(new { MontoBase = baseMonto, Recargo = recargo, MontoFinal = final });
+
+        return Ok(new { MontoBase = montoBase, Recargo = recargo, MontoFinal = final });
     }
 
-    // POST: /api/ordenes/{idOrden}/cerrar
+    // 6) Cerrar mesa
     [HttpPost("{idOrden:int}/cerrar")]
     public async Task<IActionResult> Cerrar(int idOrden)
     {
-        var orden = await _ctx.OrdenesMesa.Include(o => o.Mesa).FirstOrDefaultAsync(o => o.IdOrden == idOrden);
+        var orden = await _ctx.OrdenesMesa
+            .Include(o => o.Mesa)
+            .FirstOrDefaultAsync(o => o.IdOrden == idOrden);
+
         if (orden == null) return NotFound();
 
         orden.Estado = "Cerrada";
         orden.FechaHoraCierre = DateTime.Now;
 
-        if (orden.Mesa != null) orden.Mesa.Estado = "Disponible";
+        if (orden.Mesa != null)
+            orden.Mesa.Estado = "Disponible";
 
         await _ctx.SaveChangesAsync();
-        return Ok("Orden cerrada");
+        return Ok(new { ok = true });
     }
 }

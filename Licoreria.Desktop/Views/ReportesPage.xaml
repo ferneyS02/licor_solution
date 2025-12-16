@@ -1,0 +1,18 @@
+﻿<Page x:Class="Licoreria.Desktop.Views.ReportesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="#000000">
+    <StackPanel Margin="20">
+        <TextBlock Text="Reportes PDF" Foreground="White" FontSize="20" Margin="0,0,0,10"/>
+
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Desde:" Foreground="White" VerticalAlignment="Center"/>
+            <DatePicker x:Name="DpDesde" Margin="8,0,20,0"/>
+            <TextBlock Text="Hasta:" Foreground="White" VerticalAlignment="Center"/>
+            <DatePicker x:Name="DpHasta" Margin="8,0,20,0"/>
+            <Button Content="Generar PDF" Background="#D4AF37" Foreground="White" Click="Generar_Click"/>
+        </StackPanel>
+
+        <TextBlock x:Name="TxtInfo" Foreground="#D4AF37" Margin="0,10,0,0"/>
+    </StackPanel>
+</Page>

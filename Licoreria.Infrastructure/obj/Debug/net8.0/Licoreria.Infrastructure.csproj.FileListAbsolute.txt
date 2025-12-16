@@ -30,6 +30,7 @@ C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Infrastructure\obj\Debu
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Infrastructure\obj\Debug\net8.0\Licoreria.Infrastructure.AssemblyInfoInputs.cache
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Infrastructure\obj\Debug\net8.0\Licoreria.Infrastructure.AssemblyInfo.cs
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Infrastructure\obj\Debug\net8.0\Licoreria.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Infrastructure\obj\Debug\net8.0\Licoreria.Infrastructure.sourcelink.json
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Infrastructure\obj\Debug\net8.0\Licoreri.24CA5304.Up2Date
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Infrastructure\obj\Debug\net8.0\Licoreria.Infrastructure.dll
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Infrastructure\obj\Debug\net8.0\refint\Licoreria.Infrastructure.dll

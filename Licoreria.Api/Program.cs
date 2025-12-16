@@ -1,27 +1,22 @@
 using Licoreria.Infrastructure.Persistence;
 using Licoreria.Infrastructure.Seed;
 using Microsoft.EntityFrameworkCore;
-using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
-
-QuestPDF.Settings.License = LicenseType.Community;
-
-builder.Services.AddDbContext<AppDbContext>(opt =>
-    opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// CORS (por si luego haces app móvil o web)
+// DbContext
+builder.Services.AddDbContext<AppDbContext>(opt =>
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// CORS (para WPF no es obligatorio, pero no estorba)
 builder.Services.AddCors(opt =>
 {
-    opt.AddPolicy("all", p => p.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+    opt.AddPolicy("all", p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 });
-
-// Archivos estáticos (wwwroot/imagenes)
-builder.Services.AddDirectoryBrowser();
 
 var app = builder.Build();
 
@@ -30,12 +25,10 @@ app.UseCors("all");
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseStaticFiles();  // sirve /imagenes/<archivo>
-app.UseRouting();
-
+app.UseStaticFiles(); // wwwroot/imagenes
 app.MapControllers();
 
-// Migraciones + seed al arrancar
+// Migrar + Seed al arrancar
 using (var scope = app.Services.CreateScope())
 {
     var ctx = scope.ServiceProvider.GetRequiredService<AppDbContext>();

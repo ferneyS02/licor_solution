@@ -8,6 +8,7 @@ C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Application\obj\Debug\n
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Application\obj\Debug\net8.0\Licoreria.Application.AssemblyInfoInputs.cache
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Application\obj\Debug\net8.0\Licoreria.Application.AssemblyInfo.cs
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Application\obj\Debug\net8.0\Licoreria.Application.csproj.CoreCompileInputs.cache
+C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Application\obj\Debug\net8.0\Licoreria.Application.sourcelink.json
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Application\obj\Debug\net8.0\Licoreri.E3E37068.Up2Date
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Application\obj\Debug\net8.0\Licoreria.Application.dll
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Application\obj\Debug\net8.0\refint\Licoreria.Application.dll

@@ -1,0 +1,23 @@
+﻿<Window x:Class="Licoreria.Desktop.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Licorería 45° - Escritorio" Height="720" Width="1200"
+        Background="#000000">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Background="#0F0F0F">
+            <Image Height="120" Margin="10" Stretch="Uniform"
+                   Source="{Binding LogoPath}"/>
+
+            <Button Content="Mesas" Margin="10" Padding="10" Background="#D4AF37" Foreground="White" Click="Mesas_Click"/>
+            <Button Content="Inventario" Margin="10" Padding="10" Background="#D4AF37" Foreground="White" Click="Inventario_Click"/>
+            <Button Content="Reportes" Margin="10" Padding="10" Background="#D4AF37" Foreground="White" Click="Reportes_Click"/>
+        </StackPanel>
+
+        <Frame x:Name="MainFrame" Grid.Column="1" NavigationUIVisibility="Hidden"/>
+    </Grid>
+</Window>

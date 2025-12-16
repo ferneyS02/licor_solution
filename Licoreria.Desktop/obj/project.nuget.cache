@@ -1,13 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "Vb2K1OY6S7w=",
+  "dgSpecHash": "jcBAKSF+nkk=",
   "success": true,
   "projectFilePath": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Licoreria.Desktop.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Ferney\\.nuget\\packages\\system.io.pipelines\\10.0.1\\system.io.pipelines.10.0.1.nupkg.sha512",
-    "C:\\Users\\Ferney\\.nuget\\packages\\system.net.http.json\\10.0.1\\system.net.http.json.10.0.1.nupkg.sha512",
-    "C:\\Users\\Ferney\\.nuget\\packages\\system.text.encodings.web\\10.0.1\\system.text.encodings.web.10.0.1.nupkg.sha512",
-    "C:\\Users\\Ferney\\.nuget\\packages\\system.text.json\\10.0.1\\system.text.json.10.0.1.nupkg.sha512"
+    "C:\\Users\\Ferney\\.nuget\\packages\\system.net.http.json\\8.0.0\\system.net.http.json.8.0.0.nupkg.sha512",
+    "C:\\Users\\Ferney\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512",
+    "C:\\Users\\Ferney\\.nuget\\packages\\system.text.json\\8.0.0\\system.text.json.8.0.0.nupkg.sha512"
   ],
   "logs": []
 }
