@@ -1,10 +1,12 @@
-﻿using Licoreria.Infrastructure.Persistence;
+using Licoreria.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Licoreria.Api.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/mesas")]
 public class MesasController : ControllerBase
 {

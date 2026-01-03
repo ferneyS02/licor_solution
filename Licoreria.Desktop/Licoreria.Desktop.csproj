@@ -9,11 +9,17 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Assets\logo_licoreria.png" />
+	  <None Remove="Assets\shot_icon.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Assets\" />
+	  <Resource Include="Assets\logo_licoreria.png" />
+	  <Resource Include="Assets\shot_icon.png" />
 	</ItemGroup>
 
 </Project>

@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Nuevo perfil",
+    "Projects": [
+      {
+        "Path": "Licoreria.Api\\Licoreria.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Licoreria.Desktop\\Licoreria.Desktop.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

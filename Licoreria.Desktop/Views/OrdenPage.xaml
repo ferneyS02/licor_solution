@@ -10,40 +10,78 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock x:Name="Titulo" Foreground="White" FontSize="20" Margin="0,0,0,10"/>
+        <TextBlock x:Name="Titulo" Foreground="White" FontSize="25" Margin="0,0,0,10"/>
 
-        <ListView x:Name="Lista" Grid.Row="1" Background="#0F0F0F" Foreground="White">
+        <ListView x:Name="Lista"
+                  Grid.Row="1"
+                  Background="#0F0F0F"
+                  Foreground="White"
+                  SelectionChanged="Lista_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Producto" DisplayMemberBinding="{Binding NombreProducto}" Width="260"/>
                     <GridViewColumn Header="Cant." DisplayMemberBinding="{Binding Cantidad}" Width="60"/>
-                    <GridViewColumn Header="P.Unit" DisplayMemberBinding="{Binding PrecioUnitario}" Width="90"/>
+                    <GridViewColumn Header="Precio" DisplayMemberBinding="{Binding PrecioUnitario}" Width="90"/>
                     <GridViewColumn Header="Total" DisplayMemberBinding="{Binding Total}" Width="90"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <Border Grid.Row="2" Background="#0F0F0F" Padding="10" CornerRadius="8">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Agregar producto" Background="#D4AF37" Foreground="White" Padding="12,8"
-                        Margin="0,0,10,0" Click="Agregar_Click"/>
+        <!-- BOTONES -->
+        <Grid Grid.Row="2" Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-                <TextBlock Text="TOTAL:" Foreground="White" VerticalAlignment="Center" />
-                <TextBlock x:Name="TxtTotal" Foreground="#D4AF37" FontWeight="Bold" FontSize="16"
-                           Margin="8,0,18,0" VerticalAlignment="Center"/>
+            <!-- IZQUIERDA: acciones -->
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <Button Content="Agregar producto"
+                        Background="#D4AF37"
+                        Foreground="White"
+                        Margin="0,0,8,0"
+                        Padding="14,8"
+                        Click="Agregar_Click"/>
 
-                <ComboBox x:Name="CbPago" Width="140" Margin="0,0,10,0">
+                <Button x:Name="BtnQuitar1"
+                        Content="Quitar 1"
+                        Background="#444444"
+                        Foreground="White"
+                        Margin="0,0,8,0"
+                        Padding="14,8"
+                        Click="Quitar1_Click"
+                        IsEnabled="False"/>
+
+                <Button x:Name="BtnEliminarLinea"
+                        Content="Eliminar línea"
+                        Background="#444444"
+                        Foreground="White"
+                        Margin="0,0,8,0"
+                        Padding="14,8"
+                        Click="EliminarLinea_Click"
+                        IsEnabled="False"/>
+
+                <Button Content="Cancelar orden"
+                        Background="DarkRed"
+                        Foreground="White"
+                        Padding="14,8"
+                        Click="CancelarOrden_Click"/>
+            </StackPanel>
+
+            <!-- DERECHA: pago -->
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Text="Total:" VerticalAlignment="Center" Foreground="White" Margin="0,0,5,0"/>
+                <TextBlock x:Name="TxtTotal" VerticalAlignment="Center" Foreground="#D4AF37" FontWeight="Bold" Margin="0,0,12,0"/>
+
+                <ComboBox x:Name="CbPago" Width="101" Margin="0,0,8,0">
                     <ComboBoxItem Content="Efectivo" IsSelected="True"/>
                     <ComboBoxItem Content="Virtual"/>
                     <ComboBoxItem Content="Tarjeta"/>
                 </ComboBox>
 
-                <Button Content="Pagar" Background="#D4AF37" Foreground="White" Padding="12,8"
-                        Margin="0,0,10,0" Click="Pagar_Click"/>
-
-                <Button Content="Cerrar Mesa" Background="DarkRed" Foreground="White" Padding="12,8"
-                        Click="Cerrar_Click"/>
+                <Button Content="Pagar" Background="#D4AF37" Foreground="White" Margin="0,0,8,0" Click="Pagar_Click" Width="83"/>
+                <Button Content="Cerrar Mesa" Background="DarkRed" Foreground="White" Click="Cerrar_Click" Width="107"/>
             </StackPanel>
-        </Border>
+        </Grid>
     </Grid>
 </Page>

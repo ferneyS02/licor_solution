@@ -29,6 +29,7 @@ public class OrdenAbierta
 
 public class LineaOrden
 {
+    public int IdDetalle { get; set; }
     public int IdProducto { get; set; }
     public string NombreProducto { get; set; } = "";
     public decimal PrecioUnitario { get; set; }
@@ -38,9 +39,16 @@ public class LineaOrden
 
 public class DetalleOrdenDto
 {
-    public int IdOrden { get; set; }
-    public string Mesa { get; set; } = "";
-    public string Estado { get; set; } = "";
     public List<LineaOrden> Lineas { get; set; } = new();
     public decimal Total { get; set; }
+}
+
+public class ProductoInventario
+{
+    public int IdProducto { get; set; }
+    public string Nombre { get; set; } = "";
+    public decimal PrecioActual { get; set; }
+    public int Stock { get; set; }
+    public string? Imagen { get; set; }
+    public int IdCategoria { get; set; }
 }

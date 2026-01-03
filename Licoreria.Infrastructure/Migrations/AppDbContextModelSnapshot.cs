@@ -32,7 +32,8 @@ namespace Licoreria.Infrastructure.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(80)
+                        .HasColumnType("character varying(80)");
 
                     b.HasKey("IdCategoria");
 
@@ -58,13 +59,16 @@ namespace Licoreria.Infrastructure.Migrations
 
                     b.Property<string>("NombreProducto")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(160)
+                        .HasColumnType("character varying(160)");
 
                     b.Property<decimal>("PrecioUnitario")
-                        .HasColumnType("numeric");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
 
                     b.Property<decimal>("Total")
-                        .HasColumnType("numeric");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
 
                     b.HasKey("IdDetalle");
 
@@ -123,7 +127,8 @@ namespace Licoreria.Infrastructure.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.HasKey("IdMesa");
 
@@ -155,19 +160,21 @@ namespace Licoreria.Infrastructure.Migrations
                     b.Property<int>("IdMesa")
                         .HasColumnType("integer");
 
-                    b.Property<string>("TipoOrden")
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TipoPago")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
-
-                    b.Property<int>("Usuario")
-                        .HasColumnType("integer");
 
                     b.HasKey("IdOrden");
 
                     b.HasIndex("IdJornada");
 
                     b.HasIndex("IdMesa");
+
+                    b.HasIndex("IdUsuario");
 
                     b.ToTable("OrdenesMesa");
                 });
@@ -187,17 +194,21 @@ namespace Licoreria.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<decimal>("MontoBase")
-                        .HasColumnType("numeric");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
 
                     b.Property<decimal>("MontoFinal")
-                        .HasColumnType("numeric");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
 
                     b.Property<decimal>("Recargo")
-                        .HasColumnType("numeric");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
 
                     b.Property<string>("TipoPago")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.HasKey("IdPago");
 
@@ -218,14 +229,17 @@ namespace Licoreria.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Imagen")
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(120)
+                        .HasColumnType("character varying(120)");
 
                     b.Property<decimal>("PrecioActual")
-                        .HasColumnType("numeric");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
 
                     b.Property<int>("Stock")
                         .HasColumnType("integer");
@@ -247,11 +261,13 @@ namespace Licoreria.Infrastructure.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("Rol")
                         .IsRequired()
@@ -259,6 +275,8 @@ namespace Licoreria.Infrastructure.Migrations
                         .HasColumnType("character varying(20)");
 
                     b.HasKey("IdUsuario");
+
+                    b.HasIndex("Nombre");
 
                     b.ToTable("Usuarios");
                 });
@@ -274,7 +292,7 @@ namespace Licoreria.Infrastructure.Migrations
                     b.HasOne("Licoreria.Domain.Entities.Producto", "Producto")
                         .WithMany()
                         .HasForeignKey("IdProducto")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Orden");
@@ -287,18 +305,26 @@ namespace Licoreria.Infrastructure.Migrations
                     b.HasOne("Licoreria.Domain.Entities.Jornada", "Jornada")
                         .WithMany()
                         .HasForeignKey("IdJornada")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Licoreria.Domain.Entities.Mesa", "Mesa")
                         .WithMany()
                         .HasForeignKey("IdMesa")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Licoreria.Domain.Entities.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("IdUsuario")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Jornada");
 
                     b.Navigation("Mesa");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Licoreria.Domain.Entities.Pago", b =>
@@ -317,7 +343,7 @@ namespace Licoreria.Infrastructure.Migrations
                     b.HasOne("Licoreria.Domain.Entities.Categoria", "Categoria")
                         .WithMany("Productos")
                         .HasForeignKey("IdCategoria")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Categoria");

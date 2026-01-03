@@ -3,21 +3,78 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Licorería 45° - Escritorio" Height="720" Width="1200"
         Background="#000000">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="240"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0" Background="#0F0F0F">
-            <Image Height="120" Margin="10" Stretch="Uniform"
-                   Source="{Binding LogoPath}"/>
+        <!-- PANEL IZQUIERDO -->
+        <Grid Grid.Column="0" Background="#0F0F0F">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- logo + usuario -->
+                <RowDefinition Height="*"/>
+                <!-- botones con scroll -->
+                <RowDefinition Height="Auto"/>
+                <!-- logout/salir fijos -->
+            </Grid.RowDefinitions>
 
-            <Button Content="Mesas" Margin="10" Padding="10" Background="#D4AF37" Foreground="White" Click="Mesas_Click"/>
-            <Button Content="Inventario" Margin="10" Padding="10" Background="#D4AF37" Foreground="White" Click="Inventario_Click"/>
-            <Button Content="Reportes" Margin="10" Padding="10" Background="#D4AF37" Foreground="White" Click="Reportes_Click"/>
-        </StackPanel>
+            <!-- Header -->
+            <StackPanel Grid.Row="0">
+                <Image Height="160" Margin="10" Stretch="Uniform"
+                       Source="pack://application:,,,/Assets/logo_licoreria.png"/>
 
+                <TextBlock Margin="10,0,10,10"
+                           Foreground="White"
+                           TextWrapping="Wrap"
+                           x:Name="TxtUsuario"
+                           Text="Usuario:"/>
+            </StackPanel>
+
+            <!-- Menú (SCROLL) -->
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+                <StackPanel>
+                    <Button Content="Mesas" Margin="10" Padding="10"
+                            Background="Gold" Foreground="White"
+                            Click="Mesas_Click"/>
+
+                    <Button x:Name="BtnInventario" Content="Inventario" Margin="10" Padding="10"
+                            Background="#D4AF37" Foreground="White"
+                            Click="Inventario_Click"/>
+
+                    <Button x:Name="BtnReportes" Content="Reportes" Margin="10" Padding="10"
+                            Background="DarkGoldenrod" Foreground="White"
+                            Click="Reportes_Click"/>
+
+                    <Button x:Name="BtnCambiarPass" Content="Cambiar contraseña" Margin="10" Padding="10"
+                            Background="DarkRed" Foreground="White"
+                            Click="CambiarPass_Click"/>
+
+                    <Button x:Name="BtnResetPass" Content="Reset contraseña usuario" Margin="10" Padding="10"
+                            Background="Purple" Foreground="White"
+                            Click="ResetPass_Click"/>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Footer fijo -->
+            <StackPanel Grid.Row="2">
+                <Border Height="1" Background="#333" Margin="10,12,10,12"/>
+
+                <Button x:Name="BtnLogout" Content="Cerrar sesión" Margin="10" Padding="10"
+                        Background="#222" Foreground="White"
+                        Click="Logout_Click"/>
+
+                <Button Content="Salir" Margin="10" Padding="10"
+                        Background="#222" Foreground="White"
+                        Click="Exit_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- CONTENIDO -->
         <Frame x:Name="MainFrame" Grid.Column="1" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

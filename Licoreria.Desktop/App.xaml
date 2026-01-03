@@ -1,9 +1,85 @@
 ﻿<Application x:Class="Licoreria.Desktop.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Licoreria.Desktop"
-             StartupUri="MainWindow.xaml">
+             xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
     <Application.Resources>
-         
+
+        <!-- =========================================================
+             AJUSTA AQUÍ LOS TAMAÑOS (esto afecta TODA la app)
+             ========================================================= -->
+        <sys:Double x:Key="FsTitle">28</sys:Double>
+        <!-- títulos -->
+        <sys:Double x:Key="FsBody">18</sys:Double>
+        <!-- textos normales -->
+        <sys:Double x:Key="FsButton">18</sys:Double>
+        <!-- botones -->
+        <sys:Double x:Key="FsCombo">18</sys:Double>
+        <!-- combos -->
+        <sys:Double x:Key="FsInput">18</sys:Double>
+        <!-- TextBox / PasswordBox -->
+        <sys:Double x:Key="FsListRow">18</sys:Double>
+        <!-- ListView/ListBox filas -->
+        <sys:Double x:Key="FsListHeader">18</sys:Double>
+        <!-- GridView headers -->
+        <sys:Double x:Key="FsGridRow">18</sys:Double>
+        <!-- DataGrid filas -->
+        <sys:Double x:Key="FsGridHeader">18</sys:Double>
+        <!-- DataGrid headers -->
+
+        <!-- =========================================================
+             ESTILOS GLOBALES (si NO hay FontSize explícito, toma esto)
+             ========================================================= -->
+
+        <!-- Textos -->
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="{DynamicResource FsBody}"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="{DynamicResource FsBody}"/>
+        </Style>
+
+        <!-- Botones -->
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="{DynamicResource FsButton}"/>
+        </Style>
+
+        <!-- Inputs -->
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="{DynamicResource FsInput}"/>
+        </Style>
+
+        <Style TargetType="PasswordBox">
+            <Setter Property="FontSize" Value="{DynamicResource FsInput}"/>
+        </Style>
+
+        <!-- Combos -->
+        <Style TargetType="ComboBox">
+            <Setter Property="FontSize" Value="{DynamicResource FsCombo}"/>
+        </Style>
+
+        <!-- Listas -->
+        <Style TargetType="ListViewItem">
+            <Setter Property="FontSize" Value="{DynamicResource FsListRow}"/>
+        </Style>
+
+        <Style TargetType="ListBoxItem">
+            <Setter Property="FontSize" Value="{DynamicResource FsListRow}"/>
+        </Style>
+
+        <Style TargetType="GridViewColumnHeader">
+            <Setter Property="FontSize" Value="{DynamicResource FsListHeader}"/>
+        </Style>
+
+        <!-- DataGrid -->
+        <Style TargetType="DataGrid">
+            <Setter Property="FontSize" Value="{DynamicResource FsGridRow}"/>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="FontSize" Value="{DynamicResource FsGridHeader}"/>
+        </Style>
+
     </Application.Resources>
 </Application>

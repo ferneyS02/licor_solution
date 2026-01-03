@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Desktop\App.xaml
-7-1985125787
+10869451846
 
-15-452857576
+20-1181888898
 198338916705
-MainWindow.xaml;Views\InventarioPage.xaml;Views\MainWindow.xaml;Views\MesasPage.xaml;Views\OrdenPage.xaml;Views\ProductosWindow.xaml;Views\ReportesPage.xaml;
+MainWindow.xaml;Views\ChangePasswordWindow.xaml;Views\InventarioPage.xaml;Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\MesasPage.xaml;Views\OrdenPage.xaml;Views\ProductosWindow.xaml;Views\ReportesPage.xaml;Views\ResetPasswordWindow.xaml;
 
-True
+False
 

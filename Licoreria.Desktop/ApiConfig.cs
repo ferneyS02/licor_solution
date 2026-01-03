@@ -1,28 +1,27 @@
-﻿namespace Licoreria.Desktop;
+﻿using System;
+
+namespace Licoreria.Desktop;
 
 public static class ApiConfig
 {
-    public const string HOST = "http://192.168.1.20:5128";
+    // Puedes dejarlo en localhost sin problema
+    public const string HOST = "http://localhost:5128";
     public const string API = $"{HOST}/api";
 
     public static string Img(string? nombreArchivo)
     {
-        var n = (nombreArchivo ?? "").Trim();
+        if (string.IsNullOrWhiteSpace(nombreArchivo))
+            return $"{HOST}/imagenes/";
 
-        if (string.IsNullOrWhiteSpace(n))
-            return $"{HOST}/imagenes/shot_icon.png";
+        // ✅ deja solo el nombre del archivo (por si llega con ruta)
+        var clean = nombreArchivo.Trim().Replace("\\", "/");
+        if (clean.Contains("/"))
+            clean = clean.Split('/')[^1];
 
-        // Si ya viene como "/imagenes/aguila.png" o "imagenes/aguila.png"
-        if (n.StartsWith("/imagenes/", StringComparison.OrdinalIgnoreCase))
-            return $"{HOST}{n}";
-        if (n.StartsWith("imagenes/", StringComparison.OrdinalIgnoreCase))
-            return $"{HOST}/{n}";
+        // ✅ encode (espacios, ñ, tildes, etc.)
+        clean = Uri.EscapeDataString(clean);
 
-        // Si viene URL completa
-        if (n.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
-            n.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-            return n;
-
-        return $"{HOST}/imagenes/{Uri.EscapeDataString(n)}";
+        return $"{HOST}/imagenes/{clean}";
     }
 }
+
