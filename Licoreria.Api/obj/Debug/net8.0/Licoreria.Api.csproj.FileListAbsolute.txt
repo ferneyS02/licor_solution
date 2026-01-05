@@ -324,7 +324,6 @@ C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Api\obj\Debug\net8.0\st
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Api\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Api\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Api\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Api\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Api\obj\Debug\net8.0\Licoreri.1E0134D0.Up2Date
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Api\obj\Debug\net8.0\Licoreria.Api.dll
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Api\obj\Debug\net8.0\refint\Licoreria.Api.dll

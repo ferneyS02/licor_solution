@@ -108,7 +108,7 @@ namespace Licoreria.Desktop.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Licoreria.Desktop;V1.0.0.0;component/views/reportespage.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Licoreria.Desktop;component/views/reportespage.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\ReportesPage.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

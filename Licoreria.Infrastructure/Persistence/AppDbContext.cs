@@ -44,6 +44,10 @@ public class AppDbContext : DbContext
         mb.Entity<Producto>().Property(x => x.Imagen).HasMaxLength(200);
         mb.Entity<Producto>().Property(x => x.PrecioActual).HasPrecision(18, 2);
 
+        // ✅ NUEVO: Orden manual por categoría (no rompe nada)
+        mb.Entity<Producto>().Property(x => x.Orden).HasDefaultValue(0);
+        mb.Entity<Producto>().HasIndex(x => new { x.IdCategoria, x.Orden });
+
         mb.Entity<Mesa>().Property(x => x.Nombre).HasMaxLength(20).IsRequired();
         mb.Entity<Mesa>().Property(x => x.Estado).HasMaxLength(20);
 

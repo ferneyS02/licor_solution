@@ -1,0 +1,5 @@
+C:\Users\Ferney\source\repos\LicoreriaSolution\Entrega\DESKTOP\Licoreria.Desktop.exe
+C:\Users\Ferney\source\repos\LicoreriaSolution\Entrega\DESKTOP\Licoreria.Desktop.dll
+C:\Users\Ferney\source\repos\LicoreriaSolution\Entrega\DESKTOP\Licoreria.Desktop.deps.json
+C:\Users\Ferney\source\repos\LicoreriaSolution\Entrega\DESKTOP\Licoreria.Desktop.runtimeconfig.json
+C:\Users\Ferney\source\repos\LicoreriaSolution\Entrega\DESKTOP\Licoreria.Desktop.pdb

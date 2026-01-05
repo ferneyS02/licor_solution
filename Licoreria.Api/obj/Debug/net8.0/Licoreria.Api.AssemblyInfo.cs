@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Licoreria.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3aba7d4ec7cfe2078d2510195026ba0769da9615")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+729e3c8a52640a1f6e841a565d977e5501748977")]
 [assembly: System.Reflection.AssemblyProductAttribute("Licoreria.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Licoreria.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

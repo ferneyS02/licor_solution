@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|c:\\users\\ferney\\source\\repos\\licoreriasolution\\licoreria.desktop\\views\\mesaspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|solutionrelative:licoreria.desktop\\views\\mesaspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|c:\\users\\ferney\\source\\repos\\licoreriasolution\\licoreria.desktop\\views\\productoswindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|solutionrelative:licoreria.desktop\\views\\productoswindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|c:\\users\\ferney\\source\\repos\\licoreriasolution\\licoreria.desktop\\views\\mesaspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|solutionrelative:licoreria.desktop\\views\\mesaspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|c:\\users\\ferney\\source\\repos\\licoreriasolution\\licoreria.desktop\\views\\productoswindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{A2ED63CB-701F-4862-AA58-2A411F9C3176}|Licoreria.Desktop\\Licoreria.Desktop.csproj|solutionrelative:licoreria.desktop\\views\\productoswindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,26 +23,26 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MesasPage.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Views\\MesasPage.xaml.cs",
-              "RelativeDocumentMoniker": "Licoreria.Desktop\\Views\\MesasPage.xaml.cs",
-              "ToolTip": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Views\\MesasPage.xaml.cs",
-              "RelativeToolTip": "Licoreria.Desktop\\Views\\MesasPage.xaml.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAowCYAAABeAAAAAAAAAA==",
+              "Title": "ProductosWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Views\\ProductosWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Licoreria.Desktop\\Views\\ProductosWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Views\\ProductosWindow.xaml.cs",
+              "RelativeToolTip": "Licoreria.Desktop\\Views\\ProductosWindow.xaml.cs",
+              "ViewState": "AgIAABwBAAAAAAAAAAAowC8BAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-03T19:02:20.771Z",
+              "WhenOpened": "2026-01-05T14:43:02.993Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "MesasPage.xaml",
-              "DocumentMoniker": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Views\\MesasPage.xaml",
-              "RelativeDocumentMoniker": "Licoreria.Desktop\\Views\\MesasPage.xaml",
-              "ToolTip": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Views\\MesasPage.xaml",
-              "RelativeToolTip": "Licoreria.Desktop\\Views\\MesasPage.xaml",
+              "Title": "ProductosWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Views\\ProductosWindow.xaml",
+              "RelativeDocumentMoniker": "Licoreria.Desktop\\Views\\ProductosWindow.xaml",
+              "ToolTip": "C:\\Users\\Ferney\\source\\repos\\LicoreriaSolution\\Licoreria.Desktop\\Views\\ProductosWindow.xaml",
+              "RelativeToolTip": "Licoreria.Desktop\\Views\\ProductosWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-01-03T18:57:25.274Z",
+              "WhenOpened": "2026-01-05T14:35:12.377Z",
               "EditorCaption": ""
             }
           ]

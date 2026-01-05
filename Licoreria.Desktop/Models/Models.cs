@@ -12,6 +12,8 @@ public class Producto
     public string Nombre { get; set; } = "";
     public decimal PrecioActual { get; set; }
     public string? Imagen { get; set; }
+    public int Orden { get; set; }
+
 }
 
 public class Mesa

@@ -9,4 +9,6 @@ public class Producto
     public string? Imagen { get; set; } // "aguila.png"
     public int IdCategoria { get; set; }
     public Categoria Categoria { get; set; } = null!;
+    // ✅ Nuevo: orden manual (por categoría)
+    public int Orden { get; set; } = 0;
 }

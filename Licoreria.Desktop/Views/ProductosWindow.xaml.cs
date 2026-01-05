@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,7 +15,11 @@ public partial class ProductosWindow : Window
     private readonly ApiService _api = new();
     private readonly int _idOrden;
 
-    // ✅ fallback icon (si no existe el png, usa un dibujo simple)
+    private int _idCategoriaActual;
+    private List<Producto> _productos = new();
+    private bool _modoOrganizar;
+    private bool _ordenCambiado;
+
     private static readonly Lazy<ImageSource> _fallbackIcon = new(() =>
         TryLoadPackImage("pack://application:,,,/Licoreria.Desktop;component/Assets/shot_icon.png")
         ?? TryLoadPackImage("pack://application:,,,/Assets/shot_icon.png")
@@ -33,9 +38,14 @@ public partial class ProductosWindow : Window
     {
         var cats = await _api.GetCategoriasAsync() ?? new();
         LstCategorias.ItemsSource = cats;
-
-        // ✅ FIX: para que el ListBox muestre el nombre y no "Licoreria.Desktop.Models.Categoria"
         LstCategorias.DisplayMemberPath = "Nombre";
+
+        // ✅ Solo Admin/Sistema pueden organizar
+        var canAdmin = Session.Rol.Equals("Admin", StringComparison.OrdinalIgnoreCase)
+                    || Session.Rol.Equals("Sistema", StringComparison.OrdinalIgnoreCase);
+
+        ChkOrganizar.Visibility = canAdmin ? Visibility.Visible : Visibility.Collapsed;
+        BtnGuardarOrden.Visibility = canAdmin ? Visibility.Visible : Visibility.Collapsed;
 
         if (cats.Count > 0) LstCategorias.SelectedIndex = 0;
     }
@@ -45,10 +55,62 @@ public partial class ProductosWindow : Window
         var cat = LstCategorias.SelectedItem as Categoria;
         if (cat == null) return;
 
+        _idCategoriaActual = cat.IdCategoria;
+
         var productos = await _api.GetProductosPorCategoriaAsync(cat.IdCategoria) ?? new();
+        // ya vienen ordenados por API (Orden)
+        _productos = productos.ToList();
+
+        _ordenCambiado = false;
+        BtnGuardarOrden.IsEnabled = false;
+
+        RenderProductos();
+    }
+
+    private void ChkOrganizar_Checked(object sender, RoutedEventArgs e)
+    {
+        _modoOrganizar = true;
+        RenderProductos();
+    }
+
+    private void ChkOrganizar_Unchecked(object sender, RoutedEventArgs e)
+    {
+        _modoOrganizar = false;
+        RenderProductos();
+    }
+
+    private int GetCols()
+    {
+        // Card: 200px + márgenes aprox. -> 220
+        var w = SvProductos.ActualWidth;
+        if (double.IsNaN(w) || w < 260) return 1;
+        var cols = (int)((w - 25) / 220);
+        return Math.Max(1, cols);
+    }
+
+    private void MoveBy(int idProducto, int delta)
+    {
+        var i = _productos.FindIndex(p => p.IdProducto == idProducto);
+        if (i < 0) return;
+
+        var to = i + delta;
+        if (to < 0 || to >= _productos.Count) return;
+
+        var item = _productos[i];
+        _productos.RemoveAt(i);
+        _productos.Insert(to, item);
+
+        _ordenCambiado = true;
+        BtnGuardarOrden.IsEnabled = true;
+
+        RenderProductos();
+    }
+
+    private void RenderProductos()
+    {
         WrapProductos.Children.Clear();
 
-        foreach (var p in productos)
+        foreach (var p in _productos)
         {
             var card = new Border
             {
@@ -70,18 +132,13 @@ public partial class ProductosWindow : Window
                 Stretch = Stretch.Uniform
             };
 
-            // ✅ placeholder SIEMPRE primero
             var fallback = _fallbackIcon.Value;
             img.Source = fallback;
 
             if (!string.IsNullOrWhiteSpace(p.Imagen))
             {
                 var url = ApiConfig.Img(p.Imagen);
-
-                // ✅ útil para depurar: pasas el mouse y copias el url
                 img.ToolTip = url;
-
-                // ✅ carga robusta con fallback en DownloadFailed/DecodeFailed
                 SetImageFromUrl(img, url, fallback);
             }
 
@@ -100,6 +157,7 @@ public partial class ProductosWindow : Window
                 Margin = new Thickness(0, 4, 0, 0)
             };
 
+            // --- fila cantidad + agregar ---
             var qtyRow = new StackPanel
             {
                 Orientation = Orientation.Horizontal,
@@ -135,6 +193,39 @@ public partial class ProductosWindow : Window
             panel.Children.Add(img);
             panel.Children.Add(nombre);
             panel.Children.Add(precio);
+
+            // ✅ Controles de orden (solo en modo organizar)
+            if (_modoOrganizar)
+            {
+                var cols = GetCols();
+
+                var rowMove = new StackPanel
+                {
+                    Orientation = Orientation.Horizontal,
+                    Margin = new Thickness(0, 8, 0, 0)
+                };
+
+                Button mk(string txt)
+                    => new Button { Content = txt, Width = 36, Height = 28, Margin = new Thickness(0, 0, 6, 0) };
+
+                var btnLeft = mk("←");
+                var btnRight = mk("→");
+                var btnUp = mk("↑");
+                var btnDown = mk("↓");
+
+                btnLeft.Click += (_, __) => MoveBy(p.IdProducto, -1);
+                btnRight.Click += (_, __) => MoveBy(p.IdProducto, +1);
+                btnUp.Click += (_, __) => MoveBy(p.IdProducto, -cols);
+                btnDown.Click += (_, __) => MoveBy(p.IdProducto, +cols);
+
+                rowMove.Children.Add(btnLeft);
+                rowMove.Children.Add(btnRight);
+                rowMove.Children.Add(btnUp);
+                rowMove.Children.Add(btnDown);
+
+                panel.Children.Add(rowMove);
+            }
+
             panel.Children.Add(qtyRow);
 
             card.Child = panel;
@@ -142,37 +233,43 @@ public partial class ProductosWindow : Window
         }
     }
 
-    // =========================
-    // Helpers
-    // =========================
+    private async void BtnGuardarOrden_Click(object sender, RoutedEventArgs e)
+    {
+        if (!_ordenCambiado) return;
 
+        var ids = _productos.Select(x => x.IdProducto).ToList();
+        var (ok, error) = await _api.GuardarOrdenProductosAsync(_idCategoriaActual, ids);
+
+        if (!ok)
+        {
+            MessageBox.Show(error ?? "No se pudo guardar el orden.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+
+        _ordenCambiado = false;
+        BtnGuardarOrden.IsEnabled = false;
+        MessageBox.Show("Orden guardado ✅", "OK", MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+
+    // =========================
+    // Helpers imagen
+    // =========================
     private static void SetImageFromUrl(Image img, string url, ImageSource fallback)
     {
-        // ✅ placeholder primero (nunca queda vacío)
         img.Source = fallback;
-
         try
         {
             var bi = new BitmapImage();
             bi.BeginInit();
-
             bi.CacheOption = BitmapCacheOption.OnLoad;
             bi.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-
-            // ✅ si falla la descarga/decodificación -> fallback
             bi.DownloadFailed += (_, __) => img.Dispatcher.Invoke(() => img.Source = fallback);
             bi.DecodeFailed += (_, __) => img.Dispatcher.Invoke(() => img.Source = fallback);
-
             bi.UriSource = new Uri(url, UriKind.Absolute);
             bi.EndInit();
-
-            // ❗No hago Freeze aquí para no afectar eventos de descarga
             img.Source = bi;
         }
-        catch
-        {
-            img.Source = fallback;
-        }
+        catch { img.Source = fallback; }
     }
 
     private static ImageSource? TryLoadPackImage(string packUri)
@@ -183,18 +280,11 @@ public partial class ProductosWindow : Window
             var info = Application.GetResourceStream(uri);
             if (info?.Stream == null) return null;
 
-            var frame = BitmapFrame.Create(
-                info.Stream,
-                BitmapCreateOptions.IgnoreImageCache,
-                BitmapCacheOption.OnLoad);
-
+            var frame = BitmapFrame.Create(info.Stream, BitmapCreateOptions.IgnoreImageCache, BitmapCacheOption.OnLoad);
             frame.Freeze();
             return frame;
         }
-        catch
-        {
-            return null;
-        }
+        catch { return null; }
     }
 
     private static ImageSource CreateFallbackDrawing()

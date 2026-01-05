@@ -352,4 +352,29 @@ public class ApiService
         if (string.IsNullOrWhiteSpace(msg)) msg = res.ReasonPhrase ?? "Error desconocido";
         return (false, msg);
     }
+    // ========= PRODUCTOS: GUARDAR ORDEN (Admin/Sistema) =========
+    private record OrdenReq(List<int> Ids);
+
+    public async Task<(bool ok, string? error)> GuardarOrdenProductosAsync(int idCategoria, List<int> ids)
+    {
+        if (idCategoria <= 0) return (false, "IdCategoria inválido.");
+        if (ids == null || ids.Count == 0) return (false, "No hay productos para guardar.");
+
+        // limpia ids (por si vienen repetidos o inválidos)
+        var clean = ids.Where(x => x > 0).Distinct().ToList();
+        if (clean.Count == 0) return (false, "Lista de productos inválida.");
+
+        var res = await _http.PutAsJsonAsync(
+            $"productos/{idCategoria}/orden",
+            new OrdenReq(clean),
+            _jsonOptions
+        );
+
+        if (res.IsSuccessStatusCode) return (true, null);
+
+        var msg = await res.Content.ReadAsStringAsync();
+        if (string.IsNullOrWhiteSpace(msg)) msg = res.ReasonPhrase ?? "Error desconocido";
+        return (false, msg);
+    }
+
 }

@@ -426,6 +426,27 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Licoreria.Api.Controllers.ProductosController",
+    "Method": "GuardarOrden",
+    "RelativePath": "api/productos/{idCategoria}/orden",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idCategoria",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "req",
+        "Type": "Licoreria.Api.Controllers.ProductosController\u002BOrdenReq",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Licoreria.Api.Controllers.ReportesController",
     "Method": "RangoPdf",
     "RelativePath": "api/reportes/rango/pdf",
