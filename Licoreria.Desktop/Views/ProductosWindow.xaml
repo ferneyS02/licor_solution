@@ -16,9 +16,19 @@
         <!-- IZQUIERDA: Categorías -->
         <StackPanel Grid.RowSpan="2">
             <TextBlock Text="Categorías" Foreground="White" FontSize="16" Margin="0,0,0,8"/>
+
             <ListBox x:Name="LstCategorias"
                      Background="#0F0F0F" Foreground="White"
-                     SelectionChanged="LstCategorias_SelectionChanged"/>
+                     SelectionChanged="LstCategorias_SelectionChanged">
+
+                <!-- ✅ Click derecho para cambiar alias (solo Admin/Sistema) -->
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Cambiar nombre (alias)"
+                                  Click="CambiarAliasCategoria_Click"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+            </ListBox>
         </StackPanel>
 
         <!-- DERECHA: barra admin -->

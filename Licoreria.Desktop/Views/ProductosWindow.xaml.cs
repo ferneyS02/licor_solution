@@ -20,6 +20,16 @@ public partial class ProductosWindow : Window
     private bool _modoOrganizar;
     private bool _ordenCambiado;
 
+    private bool _canAdmin;
+    private readonly CategoryAliasService _aliasSvc = new();
+
+    private sealed class CategoriaVm
+    {
+        public int IdCategoria { get; init; }
+        public string NombreReal { get; init; } = "";
+        public string NombreMostrar { get; set; } = "";
+    }
+
     private static readonly Lazy<ImageSource> _fallbackIcon = new(() =>
         TryLoadPackImage("pack://application:,,,/Licoreria.Desktop;component/Assets/shot_icon.png")
         ?? TryLoadPackImage("pack://application:,,,/Assets/shot_icon.png")
@@ -36,35 +46,139 @@ public partial class ProductosWindow : Window
 
     private async void ProductosWindow_Loaded(object sender, RoutedEventArgs e)
     {
+        // ✅ Solo Admin/Sistema pueden organizar y cambiar alias
+        _canAdmin = Session.Rol.Equals("Admin", StringComparison.OrdinalIgnoreCase)
+                 || Session.Rol.Equals("Sistema", StringComparison.OrdinalIgnoreCase);
+
+        ChkOrganizar.Visibility = _canAdmin ? Visibility.Visible : Visibility.Collapsed;
+        BtnGuardarOrden.Visibility = _canAdmin ? Visibility.Visible : Visibility.Collapsed;
+
+        await CargarCategoriasAsync();
+    }
+
+    private async System.Threading.Tasks.Task CargarCategoriasAsync()
+    {
         var cats = await _api.GetCategoriasAsync() ?? new();
-        LstCategorias.ItemsSource = cats;
-        LstCategorias.DisplayMemberPath = "Nombre";
 
-        // ✅ Solo Admin/Sistema pueden organizar
-        var canAdmin = Session.Rol.Equals("Admin", StringComparison.OrdinalIgnoreCase)
-                    || Session.Rol.Equals("Sistema", StringComparison.OrdinalIgnoreCase);
+        var catsUi = cats.Select(c =>
+        {
+            var real = (c.Nombre ?? "").Trim();
+            return new CategoriaVm
+            {
+                IdCategoria = c.IdCategoria,
+                NombreReal = real,
+                NombreMostrar = _aliasSvc.GetDisplay(real)
+            };
+        }).ToList();
 
-        ChkOrganizar.Visibility = canAdmin ? Visibility.Visible : Visibility.Collapsed;
-        BtnGuardarOrden.Visibility = canAdmin ? Visibility.Visible : Visibility.Collapsed;
+        LstCategorias.ItemsSource = catsUi;
+        LstCategorias.DisplayMemberPath = "NombreMostrar";
 
-        if (cats.Count > 0) LstCategorias.SelectedIndex = 0;
+        if (catsUi.Count > 0) LstCategorias.SelectedIndex = 0;
     }
 
     private async void LstCategorias_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        var cat = LstCategorias.SelectedItem as Categoria;
-        if (cat == null) return;
+        if (LstCategorias.SelectedItem is not CategoriaVm cat) return;
 
         _idCategoriaActual = cat.IdCategoria;
 
         var productos = await _api.GetProductosPorCategoriaAsync(cat.IdCategoria) ?? new();
-        // ya vienen ordenados por API (Orden)
         _productos = productos.ToList();
 
         _ordenCambiado = false;
         BtnGuardarOrden.IsEnabled = false;
 
         RenderProductos();
+    }
+
+    private void CambiarAliasCategoria_Click(object sender, RoutedEventArgs e)
+    {
+        if (!_canAdmin)
+        {
+            MessageBox.Show("Solo Admin/Sistema puede cambiar el alias.", "Permisos", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        if (LstCategorias.SelectedItem is not CategoriaVm cat)
+        {
+            MessageBox.Show("Selecciona una categoría.", "Alias", MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+
+        var nuevo = PromptAlias(
+            "Cambiar nombre (alias)",
+            $"Nombre real: {cat.NombreReal}",
+            cat.NombreMostrar
+        );
+
+        if (nuevo == null) return; // canceló
+
+        // guarda (si queda vacío o igual al real, elimina el alias)
+        _aliasSvc.SetAlias(cat.NombreReal, nuevo);
+
+        // refresca solo la UI
+        cat.NombreMostrar = _aliasSvc.GetDisplay(cat.NombreReal);
+        LstCategorias.Items.Refresh();
+    }
+
+    private string? PromptAlias(string titulo, string label, string actual)
+    {
+        var win = new Window
+        {
+            Title = titulo,
+            Owner = this,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            SizeToContent = SizeToContent.WidthAndHeight,
+            ResizeMode = ResizeMode.NoResize,
+            Background = Brushes.Black
+        };
+
+        var root = new StackPanel { Margin = new Thickness(12) };
+
+        root.Children.Add(new TextBlock
+        {
+            Text = label,
+            Foreground = Brushes.White,
+            FontWeight = FontWeights.Bold,
+            Margin = new Thickness(0, 0, 0, 8)
+        });
+
+        root.Children.Add(new TextBlock
+        {
+            Text = "Escribe el nombre a mostrar (alias). Deja vacío para volver al nombre real:",
+            Foreground = Brushes.White,
+            Margin = new Thickness(0, 0, 0, 6),
+            TextWrapping = TextWrapping.Wrap,
+            Width = 360
+        });
+
+        var tb = new TextBox { Width = 360, Text = actual ?? "" };
+        root.Children.Add(tb);
+
+        var row = new StackPanel
+        {
+            Orientation = Orientation.Horizontal,
+            HorizontalAlignment = HorizontalAlignment.Right,
+            Margin = new Thickness(0, 12, 0, 0)
+        };
+
+        var ok = new Button { Content = "Guardar", Width = 90, Margin = new Thickness(0, 0, 8, 0), Background = Brushes.DarkGreen, Foreground = Brushes.White };
+        var cancel = new Button { Content = "Cancelar", Width = 90, Background = Brushes.DarkRed, Foreground = Brushes.White };
+
+        ok.Click += (_, __) => win.DialogResult = true;
+        cancel.Click += (_, __) => win.DialogResult = false;
+
+        row.Children.Add(ok);
+        row.Children.Add(cancel);
+        root.Children.Add(row);
+
+        win.Content = root;
+
+        var res = win.ShowDialog();
+        if (res != true) return null;
+
+        return (tb.Text ?? "").Trim();
     }
 
     private void ChkOrganizar_Checked(object sender, RoutedEventArgs e)
@@ -81,7 +195,6 @@ public partial class ProductosWindow : Window
 
     private int GetCols()
     {
-        // Card: 200px + márgenes aprox. -> 220
         var w = SvProductos.ActualWidth;
         if (double.IsNaN(w) || w < 260) return 1;
         var cols = (int)((w - 25) / 220);
@@ -157,7 +270,6 @@ public partial class ProductosWindow : Window
                 Margin = new Thickness(0, 4, 0, 0)
             };
 
-            // --- fila cantidad + agregar ---
             var qtyRow = new StackPanel
             {
                 Orientation = Orientation.Horizontal,
@@ -194,7 +306,6 @@ public partial class ProductosWindow : Window
             panel.Children.Add(nombre);
             panel.Children.Add(precio);
 
-            // ✅ Controles de orden (solo en modo organizar)
             if (_modoOrganizar)
             {
                 var cols = GetCols();
@@ -251,9 +362,7 @@ public partial class ProductosWindow : Window
         MessageBox.Show("Orden guardado ✅", "OK", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
-    // =========================
     // Helpers imagen
-    // =========================
     private static void SetImageFromUrl(Image img, string url, ImageSource fallback)
     {
         img.Source = fallback;

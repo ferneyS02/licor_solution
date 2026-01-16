@@ -1,0 +1,5 @@
+C:\Licoreria45\Patches\PATCH_2026_01_07\DESKTOP\Licoreria.Desktop.exe
+C:\Licoreria45\Patches\PATCH_2026_01_07\DESKTOP\Licoreria.Desktop.dll
+C:\Licoreria45\Patches\PATCH_2026_01_07\DESKTOP\Licoreria.Desktop.deps.json
+C:\Licoreria45\Patches\PATCH_2026_01_07\DESKTOP\Licoreria.Desktop.runtimeconfig.json
+C:\Licoreria45\Patches\PATCH_2026_01_07\DESKTOP\Licoreria.Desktop.pdb

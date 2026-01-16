@@ -15,12 +15,14 @@ public partial class OrdenPage : Page
     private readonly int _idOrden;
     private readonly string _mesa;
 
+    private bool _pagada;
+
     public OrdenPage(int idOrden, string mesa)
     {
         InitializeComponent();
         _idOrden = idOrden;
         _mesa = mesa;
-        Titulo.Text = $"Orden #{_idOrden} - {_mesa}";
+
         Loaded += async (_, __) => await RefrescarAsync();
     }
 
@@ -28,21 +30,47 @@ public partial class OrdenPage : Page
     {
         var det = await _api.GetDetalleOrdenAsync(_idOrden);
 
-        Lista.ItemsSource = det?.Lineas ?? new List<LineaOrden>();
-        TxtTotal.Text = det != null ? $"${det.Total:N0}" : "$0";
+        var lineas = det?.Lineas ?? new List<LineaOrden>();
+        var total = det?.Total ?? 0m;
 
-        BtnQuitar1.IsEnabled = Lista.SelectedItem != null;
-        BtnEliminarLinea.IsEnabled = Lista.SelectedItem != null;
+        _pagada = det?.Pagada == true;
+        var tieneProductos = lineas.Count > 0;
+
+        // Título con estado
+        Titulo.Text = $"Orden #{_idOrden} - {_mesa}" + (_pagada ? " (PAGADA)" : "");
+
+        Lista.ItemsSource = lineas;
+        TxtTotal.Text = det != null ? $"${total:N0}" : "$0";
+
+        // Botones de línea (solo si NO está pagada)
+        BtnQuitar1.IsEnabled = !_pagada && Lista.SelectedItem != null;
+        BtnEliminarLinea.IsEnabled = !_pagada && Lista.SelectedItem != null;
+
+        // Agregar producto (si está pagada, no deja)
+        BtnAgregarProducto.IsEnabled = !_pagada;
+
+        // Pago: solo si hay productos y NO está pagada
+        BtnPagar.IsEnabled = tieneProductos && !_pagada;
+        CbPago.IsEnabled = tieneProductos && !_pagada;
+
+        // ✅ REGLA: cerrar solo si NO hay productos o si ya está pagada
+        BtnCerrarMesa.IsEnabled = !tieneProductos || _pagada;
     }
 
     private void Lista_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        BtnQuitar1.IsEnabled = Lista.SelectedItem != null;
-        BtnEliminarLinea.IsEnabled = Lista.SelectedItem != null;
+        BtnQuitar1.IsEnabled = !_pagada && Lista.SelectedItem != null;
+        BtnEliminarLinea.IsEnabled = !_pagada && Lista.SelectedItem != null;
     }
 
     private async void Agregar_Click(object sender, RoutedEventArgs e)
     {
+        if (_pagada)
+        {
+            MessageBox.Show("La orden ya está pagada. No se puede modificar.");
+            return;
+        }
+
         var win = new ProductosWindow(_idOrden);
         win.Owner = Window.GetWindow(this);
         win.ShowDialog();
@@ -51,6 +79,12 @@ public partial class OrdenPage : Page
 
     private async void Quitar1_Click(object sender, RoutedEventArgs e)
     {
+        if (_pagada)
+        {
+            MessageBox.Show("La orden ya está pagada. No se puede modificar.");
+            return;
+        }
+
         if (Lista.SelectedItem is not LineaOrden linea)
         {
             MessageBox.Show("Selecciona un producto.");
@@ -69,6 +103,12 @@ public partial class OrdenPage : Page
 
     private async void EliminarLinea_Click(object sender, RoutedEventArgs e)
     {
+        if (_pagada)
+        {
+            MessageBox.Show("La orden ya está pagada. No se puede modificar.");
+            return;
+        }
+
         if (Lista.SelectedItem is not LineaOrden linea)
         {
             MessageBox.Show("Selecciona un producto.");
@@ -164,14 +204,16 @@ public partial class OrdenPage : Page
 
     private async void Cerrar_Click(object sender, RoutedEventArgs e)
     {
-        if (await _api.CerrarOrdenAsync(_idOrden))
+        var (ok, error) = await _api.CerrarOrdenAsync(_idOrden);
+
+        if (ok)
         {
             MessageBox.Show("Mesa cerrada");
             NavigationService?.GoBack();
         }
         else
         {
-            MessageBox.Show("No se pudo cerrar");
+            MessageBox.Show(error ?? "No se pudo cerrar.", "Cerrar mesa");
         }
     }
 }

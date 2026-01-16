@@ -6,11 +6,16 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
+		<ApplicationIcon>Licoreria45.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
 	  <None Remove="Assets\logo_licoreria.png" />
 	  <None Remove="Assets\shot_icon.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Licoreria45.ico" />
 	</ItemGroup>
 
 	<ItemGroup>

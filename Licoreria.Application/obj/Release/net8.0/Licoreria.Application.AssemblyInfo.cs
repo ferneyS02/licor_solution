@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Licoreria.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+729e3c8a52640a1f6e841a565d977e5501748977")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+555522579d0cce2ece9b4d0df22857b2eed06a0e")]
 [assembly: System.Reflection.AssemblyProductAttribute("Licoreria.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Licoreria.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -13,7 +13,6 @@ public class Producto
     public decimal PrecioActual { get; set; }
     public string? Imagen { get; set; }
     public int Orden { get; set; }
-
 }
 
 public class Mesa
@@ -43,6 +42,12 @@ public class DetalleOrdenDto
 {
     public List<LineaOrden> Lineas { get; set; } = new();
     public decimal Total { get; set; }
+
+    // ✅ NUEVO (para bloquear "Cerrar Mesa" si no está pagada)
+    public bool Pagada { get; set; }
+
+    // ✅ Opcional (por si quieres mostrar estado)
+    public string Estado { get; set; } = "";
 }
 
 public class ProductoInventario

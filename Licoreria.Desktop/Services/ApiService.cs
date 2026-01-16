@@ -3,6 +3,7 @@ using Licoreria.Desktop.Models;
 using System;
 using System.Collections.Generic;         // ✅ List<>
 using System.IO;
+using System.Linq;                        // ✅ Where/Distinct
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -90,6 +91,7 @@ public class ApiService
         return res.IsSuccessStatusCode;
     }
 
+    // ✅ ya lee Pagada/Estado porque el DTO fue ampliado
     public Task<DetalleOrdenDto?> GetDetalleOrdenAsync(int idOrden) =>
         _http.GetFromJsonAsync<DetalleOrdenDto>($"ordenes/{idOrden}/detalle", _jsonOptions);
 
@@ -111,10 +113,16 @@ public class ApiService
         return (data.MontoBase, data.Recargo, data.MontoFinal);
     }
 
-    public async Task<bool> CerrarOrdenAsync(int idOrden)
+    // ✅ MODIFICADO: devuelve error real (para mostrarlo en UI)
+    public async Task<(bool ok, string? error)> CerrarOrdenAsync(int idOrden)
     {
         var res = await _http.PostAsync($"ordenes/{idOrden}/cerrar", null);
-        return res.IsSuccessStatusCode;
+
+        if (res.IsSuccessStatusCode) return (true, null);
+
+        var msg = await res.Content.ReadAsStringAsync();
+        if (string.IsNullOrWhiteSpace(msg)) msg = res.ReasonPhrase ?? "Error";
+        return (false, msg);
     }
 
     // ========= ORDEN: QUITAR / CANCELAR =========
@@ -302,11 +310,6 @@ public class ApiService
     // ========= ADMIN: RESET PASSWORD (Admin/Sistema) =========
     private record ResetPasswordReq(int? IdUsuario, string? Nombre, string NewPassword);
 
-    /// <summary>
-    /// Resetea la contraseña de un usuario por NOMBRE (Admin/Sistema).
-    /// Llama a POST /api/admin/reset-password
-    /// Body: { "idUsuario": null, "nombre": "vendedor", "newPassword": "123456" }
-    /// </summary>
     public async Task<(bool ok, string? error)> ResetPasswordAsync(string nombreUsuario, string newPassword)
     {
         if (string.IsNullOrWhiteSpace(nombreUsuario))
@@ -328,10 +331,6 @@ public class ApiService
         return (false, msg);
     }
 
-    /// <summary>
-    /// Resetea la contraseña de un usuario por ID (Admin/Sistema).
-    /// Body: { "idUsuario": 2, "nombre": null, "newPassword": "123456" }
-    /// </summary>
     public async Task<(bool ok, string? error)> ResetPasswordByIdAsync(int idUsuario, string newPassword)
     {
         if (idUsuario <= 0)
@@ -352,6 +351,7 @@ public class ApiService
         if (string.IsNullOrWhiteSpace(msg)) msg = res.ReasonPhrase ?? "Error desconocido";
         return (false, msg);
     }
+
     // ========= PRODUCTOS: GUARDAR ORDEN (Admin/Sistema) =========
     private record OrdenReq(List<int> Ids);
 
@@ -360,7 +360,6 @@ public class ApiService
         if (idCategoria <= 0) return (false, "IdCategoria inválido.");
         if (ids == null || ids.Count == 0) return (false, "No hay productos para guardar.");
 
-        // limpia ids (por si vienen repetidos o inválidos)
         var clean = ids.Where(x => x > 0).Distinct().ToList();
         if (clean.Count == 0) return (false, "Lista de productos inválida.");
 
@@ -376,5 +375,4 @@ public class ApiService
         if (string.IsNullOrWhiteSpace(msg)) msg = res.ReasonPhrase ?? "Error desconocido";
         return (false, msg);
     }
-
 }

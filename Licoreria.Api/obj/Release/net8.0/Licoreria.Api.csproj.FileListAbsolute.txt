@@ -164,3 +164,4 @@ C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Api\obj\Release\net8.0\
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Api\obj\Release\net8.0\Licoreria.Api.pdb
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Api\obj\Release\net8.0\Licoreria.Api.genruntimeconfig.cache
 C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Api\obj\Release\net8.0\ref\Licoreria.Api.dll
+C:\Users\Ferney\source\repos\LicoreriaSolution\Licoreria.Api\obj\Release\net8.0\staticwebassets.upToDateCheck.txt

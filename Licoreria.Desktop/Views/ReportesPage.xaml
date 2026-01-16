@@ -7,10 +7,22 @@
 
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Desde:" Foreground="White" VerticalAlignment="Center"/>
-            <DatePicker x:Name="DpDesde" Margin="8,0,20,0"/>
-            <TextBlock Text="Hasta:" Foreground="White" VerticalAlignment="Center"/>
-            <DatePicker x:Name="DpHasta" Margin="8,0,20,0"/>
-            <Button Content="Generar PDF" Background="#D4AF37" Foreground="White" Click="Generar_Click"/>
+            <DatePicker x:Name="DpDesde" Margin="8,0,10,0"/>
+
+            <TextBlock Text="Hora:" Foreground="White" VerticalAlignment="Center"/>
+            <ComboBox x:Name="CbDesdeHora" Width="55" Margin="8,0,0,0"/>
+            <TextBlock Text=":" Foreground="White" VerticalAlignment="Center" Margin="4,0,4,0"/>
+            <ComboBox x:Name="CbDesdeMin" Width="55"/>
+
+            <TextBlock Text="Hasta:" Foreground="White" VerticalAlignment="Center" Margin="20,0,0,0"/>
+            <DatePicker x:Name="DpHasta" Margin="8,0,10,0"/>
+
+            <TextBlock Text="Hora:" Foreground="White" VerticalAlignment="Center"/>
+            <ComboBox x:Name="CbHastaHora" Width="55" Margin="8,0,0,0"/>
+            <TextBlock Text=":" Foreground="White" VerticalAlignment="Center" Margin="4,0,4,0"/>
+            <ComboBox x:Name="CbHastaMin" Width="55"/>
+
+            <Button Content="Generar PDF" Background="#D4AF37" Foreground="White" Margin="20,0,0,0" Click="Generar_Click"/>
         </StackPanel>
 
         <TextBlock x:Name="TxtInfo" Foreground="#D4AF37" Margin="0,10,0,0"/>

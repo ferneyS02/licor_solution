@@ -18,28 +18,29 @@ public class ReportesController : ControllerBase
     public ReportesController(AppDbContext ctx) => _ctx = ctx;
 
     // GET: /api/reportes/rango/pdf?desde=18/12/2025&hasta=18/12/2025
-    // También acepta: desde=2025-12-18&hasta=2025-12-18
+    // También acepta:
+    //  - desde=2025-12-18&hasta=2025-12-18
+    //  - desde=2025-12-18T09:30&hasta=2025-12-18T18:15
+    //  - desde=18/12/2025 09:30&hasta=18/12/2025 18:15
+    // Si NO se envía hora, se asume el día completo.
     [HttpGet("rango/pdf")]
     public async Task<IActionResult> RangoPdf([FromQuery] string desde, [FromQuery] string hasta)
     {
-        // ✅ No hace daño dejarlo aquí (aunque ya esté en Program.cs)
         QuestPDF.Settings.License = LicenseType.Community;
 
-        if (!TryParseFecha(desde, out var desdeDt))
-            return BadRequest("Fecha 'desde' inválida. Usa yyyy-MM-dd o dd/MM/yyyy. Ej: 2025-12-18 o 18/12/2025");
+        if (!TryParseFechaHora(desde, out var desdeDt, out var desdeTieneHora))
+            return BadRequest("'desde' inválido. Usa yyyy-MM-dd, dd/MM/yyyy, o fecha+hora (yyyy-MM-ddTHH:mm / dd/MM/yyyy HH:mm). Ej: 2025-12-18T09:30");
 
-        if (!TryParseFecha(hasta, out var hastaDt))
-            return BadRequest("Fecha 'hasta' inválida. Usa yyyy-MM-dd o dd/MM/yyyy. Ej: 2025-12-18 o 18/12/2025");
+        if (!TryParseFechaHora(hasta, out var hastaDt, out var hastaTieneHora))
+            return BadRequest("'hasta' inválido. Usa yyyy-MM-dd, dd/MM/yyyy, o fecha+hora (yyyy-MM-ddTHH:mm / dd/MM/yyyy HH:mm). Ej: 2025-12-18T18:15");
 
-        if (hastaDt.Date < desdeDt.Date)
+        var desdeLocal = DateTime.SpecifyKind(desdeTieneHora ? desdeDt : desdeDt.Date, DateTimeKind.Local);
+        var hastaLocal = DateTime.SpecifyKind(
+            hastaTieneHora ? hastaDt : hastaDt.Date.AddDays(1).AddTicks(-1),
+            DateTimeKind.Local);
+
+        if (hastaLocal < desdeLocal)
             return BadRequest("Rango inválido (hasta < desde).");
-
-        var desdeFecha = desdeDt.Date;
-        var hastaFecha = hastaDt.Date;
-
-        // Rango "día local" -> UTC para Postgres timestamptz
-        var desdeLocal = DateTime.SpecifyKind(desdeFecha, DateTimeKind.Local);
-        var hastaLocal = DateTime.SpecifyKind(hastaFecha.AddDays(1).AddTicks(-1), DateTimeKind.Local);
 
         var d0 = desdeLocal.ToUniversalTime();
         var d1 = hastaLocal.ToUniversalTime();
@@ -63,7 +64,6 @@ public class ReportesController : ControllerBase
         static DateTime ToLocal(DateTime dt) =>
             dt.Kind == DateTimeKind.Utc ? dt.ToLocalTime() : dt;
 
-        // (opcional) cultura CO para moneda más “bonita” en PDF
         var co = CultureInfo.GetCultureInfo("es-CO");
 
         byte[] pdf = Document.Create(doc =>
@@ -73,7 +73,7 @@ public class ReportesController : ControllerBase
                 page.Margin(20);
 
                 page.Header()
-                    .Text($"Licorería 45° - Reporte {desdeFecha:yyyy-MM-dd} a {hastaFecha:yyyy-MM-dd}")
+                    .Text($"Licorería 45° - Reporte {desdeLocal:yyyy-MM-dd HH:mm} a {hastaLocal:yyyy-MM-dd HH:mm}")
                     .Bold().FontSize(16);
 
                 page.Content().Column(col =>
@@ -123,9 +123,11 @@ public class ReportesController : ControllerBase
 
                         if (p != null)
                         {
-                            col.Item().Text(
-                                $"Pago: {p.TipoPago} | Base: {p.MontoBase.ToString("C0", co)} | Recargo: {p.Recargo.ToString("C0", co)} | Final: {p.MontoFinal.ToString("C0", co)}"
-                            );
+                            var baseStr = p.MontoBase.ToString("C0", co);
+                            var recargoStr = p.Recargo.ToString("C0", co);
+                            var finalStr = p.MontoFinal.ToString("C0", co);
+
+                            col.Item().Text($"Pago: {p.TipoPago} | Base: {baseStr} | Recargo: {recargoStr} | Final: {finalStr}");
                         }
 
                         col.Item().Text("--------------------------------------------------");
@@ -136,31 +138,59 @@ public class ReportesController : ControllerBase
             });
         }).GeneratePdf();
 
-        return File(pdf, "application/pdf", $"reporte_{desdeFecha:yyyyMMdd}_{hastaFecha:yyyyMMdd}.pdf");
+        var fileName = (desdeTieneHora || hastaTieneHora)
+            ? $"reporte_{desdeLocal:yyyyMMdd_HHmm}_{hastaLocal:yyyyMMdd_HHmm}.pdf"
+            : $"reporte_{desdeLocal:yyyyMMdd}_{hastaLocal:yyyyMMdd}.pdf";
+
+        return File(pdf, "application/pdf", fileName);
     }
 
-    private static bool TryParseFecha(string input, out DateTime dt)
+    private static bool TryParseFechaHora(string input, out DateTime dt, out bool tieneHora)
     {
         dt = default;
+        tieneHora = false;
         if (string.IsNullOrWhiteSpace(input)) return false;
 
         input = input.Trim();
 
-        // 1) yyyy-MM-dd
-        if (DateTime.TryParseExact(input, "yyyy-MM-dd", CultureInfo.InvariantCulture,
-            DateTimeStyles.None, out dt))
-            return true;
-
-        // 2) dd/MM/yyyy
-        if (DateTime.TryParseExact(input, "dd/MM/yyyy", CultureInfo.InvariantCulture,
-            DateTimeStyles.None, out dt))
-            return true;
-
-        // 3) ISO date-time (2025-12-18T00:00:00 o con Z)
-        if (DateTimeOffset.TryParse(input, CultureInfo.InvariantCulture,
-            DateTimeStyles.AssumeLocal, out var dto))
+        var formatosConHora = new[]
         {
-            dt = dto.DateTime;
+            "yyyy-MM-dd'T'HH:mm:ss.FFFFFFF",
+            "yyyy-MM-dd'T'HH:mm:ss",
+            "yyyy-MM-dd'T'HH:mm",
+            "yyyy-MM-dd HH:mm:ss.FFFFFFF",
+            "yyyy-MM-dd HH:mm:ss",
+            "yyyy-MM-dd HH:mm",
+            "dd/MM/yyyy HH:mm:ss.FFFFFFF",
+            "dd/MM/yyyy HH:mm:ss",
+            "dd/MM/yyyy HH:mm",
+        };
+
+        if (DateTime.TryParseExact(input, formatosConHora, CultureInfo.InvariantCulture,
+            DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AssumeLocal, out dt))
+        {
+            tieneHora = true;
+            return true;
+        }
+
+        var formatosSoloFecha = new[]
+        {
+            "yyyy-MM-dd",
+            "dd/MM/yyyy",
+        };
+
+        if (DateTime.TryParseExact(input, formatosSoloFecha, CultureInfo.InvariantCulture,
+            DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AssumeLocal, out dt))
+        {
+            tieneHora = false;
+            return true;
+        }
+
+        if (DateTimeOffset.TryParse(input, CultureInfo.InvariantCulture,
+            DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AssumeLocal, out var dto))
+        {
+            dt = dto.LocalDateTime;
+            tieneHora = input.Contains(':') || input.Contains('T') || input.Contains('t');
             return true;
         }
 

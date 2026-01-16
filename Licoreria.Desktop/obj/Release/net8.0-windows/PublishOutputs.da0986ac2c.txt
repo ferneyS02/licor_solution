@@ -1,0 +1,5 @@
+C:\Licoreria45\Entrega\PUBLISH\DESKTOP\Licoreria.Desktop.exe
+C:\Licoreria45\Entrega\PUBLISH\DESKTOP\Licoreria.Desktop.dll
+C:\Licoreria45\Entrega\PUBLISH\DESKTOP\Licoreria.Desktop.deps.json
+C:\Licoreria45\Entrega\PUBLISH\DESKTOP\Licoreria.Desktop.runtimeconfig.json
+C:\Licoreria45\Entrega\PUBLISH\DESKTOP\Licoreria.Desktop.pdb

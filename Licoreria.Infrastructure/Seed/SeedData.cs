@@ -54,7 +54,7 @@ public static class SeedData
         // =========================
         // ✅ MESAS FIJAS (crea las que falten)
         // =========================
-        for (int i = 1; i <= 8; i++)
+        for (int i = 1; i <= 9; i++)
         {
             var nombreMesa = $"Mesa{i}";
             if (!await ctx.Mesas.AnyAsync(m => m.Nombre == nombreMesa))
@@ -63,6 +63,7 @@ public static class SeedData
             }
         }
         await ctx.SaveChangesAsync();
+
 
         // =========================
         // ✅ CATEGORÍAS (crea las que falten)
@@ -156,7 +157,7 @@ public static class SeedData
 
         // AGUARDIENTE / RONES
         AddIfMissing(new Producto { Nombre = "Líder Media", PrecioActual = 37000, Stock = 0, Imagen = "lider_media.png", IdCategoria = Cat("Aguardiente / Rones") });
-        AddIfMissing(new Producto { Nombre = "Líder Botella / Onix / Onix Amarillo", PrecioActual = 63000, Stock = 0, Imagen = "lider_botella.png", IdCategoria = Cat("Aguardiente / Rones") });
+        AddIfMissing(new Producto { Nombre = "Líder Botella", PrecioActual = 63000, Stock = 0, Imagen = "lider_botella.png", IdCategoria = Cat("Aguardiente / Rones") });
         AddIfMissing(new Producto { Nombre = "Aguardiente Amarillo de Manzanares", PrecioActual = 65000, Stock = 0, Imagen = "amarillo_manzanares.png", IdCategoria = Cat("Aguardiente / Rones") });
         AddIfMissing(new Producto { Nombre = "Boyacá Media", PrecioActual = 39000, Stock = 0, Imagen = "boyaca_media.png", IdCategoria = Cat("Aguardiente / Rones") });
         AddIfMissing(new Producto { Nombre = "Boyacá Botella", PrecioActual = 65000, Stock = 0, Imagen = "boyaca_botella.png", IdCategoria = Cat("Aguardiente / Rones") });
@@ -178,7 +179,7 @@ public static class SeedData
         AddIfMissing(new Producto { Nombre = "Red Label Botella", PrecioActual = 90000, Stock = 0, Imagen = "red_label.png", IdCategoria = Cat("Whisky") });
         AddIfMissing(new Producto { Nombre = "Something Special Botella", PrecioActual = 90000, Stock = 0, Imagen = "something_special.png", IdCategoria = Cat("Whisky") });
         AddIfMissing(new Producto { Nombre = "Buchanan's Deluxe Botella", PrecioActual = 190000, Stock = 0, Imagen = "buchanans_deluxe.png", IdCategoria = Cat("Whisky") });
-        AddIfMissing(new Producto { Nombre = "Jack Daniels ", PrecioActual = 190000, Stock = 0, Imagen = "jack_miel.png", IdCategoria = Cat("Whisky") });
+        AddIfMissing(new Producto { Nombre = "Jack Daniels", PrecioActual = 190000, Stock = 0, Imagen = "jack_miel.png", IdCategoria = Cat("Whisky") });
         AddIfMissing(new Producto { Nombre = "Chivas Botella", PrecioActual = 190000, Stock = 0, Imagen = "chivas.png", IdCategoria = Cat("Whisky") });
         AddIfMissing(new Producto { Nombre = "Jägermeister Botella", PrecioActual = 185000, Stock = 0, Imagen = "jagermeister_botella.png", IdCategoria = Cat("Whisky") });
 

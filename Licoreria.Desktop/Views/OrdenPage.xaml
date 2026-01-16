@@ -36,7 +36,8 @@
 
             <!-- IZQUIERDA: acciones -->
             <StackPanel Orientation="Horizontal" Grid.Column="0">
-                <Button Content="Agregar producto"
+                <Button x:Name="BtnAgregarProducto"
+                        Content="Agregar producto"
                         Background="#D4AF37"
                         Foreground="White"
                         Margin="0,0,8,0"
@@ -79,8 +80,20 @@
                     <ComboBoxItem Content="Tarjeta"/>
                 </ComboBox>
 
-                <Button Content="Pagar" Background="#D4AF37" Foreground="White" Margin="0,0,8,0" Click="Pagar_Click" Width="83"/>
-                <Button Content="Cerrar Mesa" Background="DarkRed" Foreground="White" Click="Cerrar_Click" Width="107"/>
+                <Button x:Name="BtnPagar"
+                        Content="Pagar"
+                        Background="#D4AF37"
+                        Foreground="White"
+                        Margin="0,0,8,0"
+                        Click="Pagar_Click"
+                        Width="83"/>
+
+                <Button x:Name="BtnCerrarMesa"
+                        Content="Cerrar Mesa"
+                        Background="DarkRed"
+                        Foreground="White"
+                        Click="Cerrar_Click"
+                        Width="107"/>
             </StackPanel>
         </Grid>
     </Grid>

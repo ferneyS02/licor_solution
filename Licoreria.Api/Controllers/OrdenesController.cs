@@ -53,6 +53,7 @@ public class OrdenesController : ControllerBase
         return new JsonResult(orden);
     }
 
+    // ✅ MODIFICADO: ahora devuelve Pagada + Estado
     [HttpGet("{idOrden:int}/detalle")]
     public async Task<IActionResult> Detalle(int idOrden)
     {
@@ -77,7 +78,17 @@ public class OrdenesController : ControllerBase
             .ToList();
 
         var total = lineas.Sum(x => x.Total);
-        return Ok(new { Lineas = lineas, Total = total });
+
+        // ✅ Pagada = existe al menos 1 registro en Pagos para esta orden
+        var pagada = await _ctx.Pagos.AsNoTracking().AnyAsync(p => p.IdOrden == idOrden);
+
+        return Ok(new
+        {
+            Lineas = lineas,
+            Total = total,
+            Pagada = pagada,
+            Estado = orden.Estado
+        });
     }
 
     [HttpPost("abrir/{idMesa:int}")]
@@ -347,14 +358,30 @@ public class OrdenesController : ControllerBase
         return Ok(new { ok = true, tipo = "anulada_con_devolucion_stock" });
     }
 
+    // ✅ MODIFICADO: NO permite cerrar si hay productos y NO está pagada
     [HttpPost("{idOrden:int}/cerrar")]
     public async Task<IActionResult> Cerrar(int idOrden)
     {
         var orden = await _ctx.OrdenesMesa
             .Include(o => o.Mesa)
+            .Include(o => o.Detalles)
             .FirstOrDefaultAsync(o => o.IdOrden == idOrden);
 
         if (orden == null) return NotFound("Orden no existe");
+
+        // (Opcional) idempotente si ya está cerrada
+        if (orden.Estado == "Cerrada")
+            return Ok(new { ok = true, yaCerrada = true });
+
+        if (orden.Estado != "Abierta")
+            return BadRequest("La orden no está abierta.");
+
+        var tieneProductos = (orden.Detalles?.Any() ?? false);
+        var pagada = await _ctx.Pagos.AsNoTracking().AnyAsync(p => p.IdOrden == idOrden);
+
+        // ✅ REGLA: si hay productos y no está pagada => NO cerrar
+        if (tieneProductos && !pagada)
+            return Conflict("No se puede cerrar la mesa: hay productos en la orden y NO está pagada. Debes PAGAR o CANCELAR la orden.");
 
         orden.Estado = "Cerrada";
         orden.FechaHoraCierre = UtcNow();

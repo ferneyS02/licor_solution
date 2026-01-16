@@ -1,5 +1,5 @@
-﻿using Licoreria.Desktop;                 // ✅ para Session y ApiConfig
-using Licoreria.Desktop.Services;         // ✅ para ApiService
+﻿using Licoreria.Desktop;
+using Licoreria.Desktop.Services;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -20,9 +20,33 @@ public partial class ReportesPage : Page
         DpDesde.SelectedDate = DateTime.Today;
         DpHasta.SelectedDate = DateTime.Today;
 
-        // UI: por seguridad, ocultar purga para vendedor (API igual lo bloquea)
+        InitTimePickers();
+
         if (Session.Rol.Equals("Vendedor", StringComparison.OrdinalIgnoreCase))
             PurgePanel.Visibility = Visibility.Collapsed;
+    }
+
+    private void InitTimePickers()
+    {
+        for (var h = 0; h < 24; h++)
+        {
+            var hh = h.ToString("00");
+            CbDesdeHora.Items.Add(hh);
+            CbHastaHora.Items.Add(hh);
+        }
+
+        for (var m = 0; m < 60; m++)
+        {
+            var mm = m.ToString("00");
+            CbDesdeMin.Items.Add(mm);
+            CbHastaMin.Items.Add(mm);
+        }
+
+        CbDesdeHora.SelectedItem = "00";
+        CbDesdeMin.SelectedItem = "00";
+
+        CbHastaHora.SelectedItem = "23";
+        CbHastaMin.SelectedItem = "59";
     }
 
     private async void Generar_Click(object sender, RoutedEventArgs e)
@@ -33,8 +57,44 @@ public partial class ReportesPage : Page
             return;
         }
 
-        var desde = DpDesde.SelectedDate.Value.ToString("yyyy-MM-dd");
-        var hasta = DpHasta.SelectedDate.Value.ToString("yyyy-MM-dd");
+        int hDesde = int.TryParse(CbDesdeHora.SelectedItem?.ToString(), out var hd) ? hd : 0;
+        int mDesde = int.TryParse(CbDesdeMin.SelectedItem?.ToString(), out var md) ? md : 0;
+        int hHasta = int.TryParse(CbHastaHora.SelectedItem?.ToString(), out var hh) ? hh : 0;
+        int mHasta = int.TryParse(CbHastaMin.SelectedItem?.ToString(), out var mh) ? mh : 0;
+
+        var usarSoloFecha = hDesde == 0 && mDesde == 0 && hHasta == 23 && mHasta == 59;
+
+        DateTime desdeDt;
+        DateTime hastaDt;
+        string desde;
+        string hasta;
+
+        if (usarSoloFecha)
+        {
+            desdeDt = DpDesde.SelectedDate.Value.Date;
+            hastaDt = DpHasta.SelectedDate.Value.Date;
+
+            desde = Uri.EscapeDataString(desdeDt.ToString("yyyy-MM-dd"));
+            hasta = Uri.EscapeDataString(hastaDt.ToString("yyyy-MM-dd"));
+        }
+        else
+        {
+            desdeDt = DateTime.SpecifyKind(
+                DpDesde.SelectedDate.Value.Date.AddHours(hDesde).AddMinutes(mDesde),
+                DateTimeKind.Local);
+
+            var hastaBase = DpHasta.SelectedDate.Value.Date.AddHours(hHasta).AddMinutes(mHasta);
+            hastaDt = DateTime.SpecifyKind(hastaBase.AddMinutes(1).AddTicks(-1), DateTimeKind.Local);
+
+            desde = Uri.EscapeDataString(desdeDt.ToString("yyyy-MM-dd'T'HH:mm:ss"));
+            hasta = Uri.EscapeDataString(hastaDt.ToString("yyyy-MM-dd'T'HH:mm:ss.fffffff"));
+        }
+
+        if (hastaDt < desdeDt)
+        {
+            MessageBox.Show("Rango inválido: 'Hasta' es menor que 'Desde'.");
+            return;
+        }
 
         var url = $"{ApiConfig.HOST}/api/reportes/rango/pdf?desde={desde}&hasta={hasta}";
 
@@ -50,7 +110,11 @@ public partial class ReportesPage : Page
             var outDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ReportesLicoreria45");
             Directory.CreateDirectory(outDir);
 
-            var path = Path.Combine(outDir, $"reporte_{desde}_{hasta}.pdf");
+            var fileName = usarSoloFecha
+                ? $"reporte_{desdeDt:yyyy-MM-dd}_{hastaDt:yyyy-MM-dd}.pdf"
+                : $"reporte_{desdeDt:yyyyMMdd_HHmm}_{hastaDt:yyyyMMdd_HHmm}.pdf";
+
+            var path = Path.Combine(outDir, fileName);
             await File.WriteAllBytesAsync(path, bytes);
 
             TxtInfo.Text = $"PDF guardado en: {path}";
